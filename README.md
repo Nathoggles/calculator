@@ -1,1 +1,2 @@
 # calculator
+A basic, yet fully functional calculator app. I used it to hone my skills in working with objects and in accounting for various user behaviours as well as to build an appealing and mobile-friendly flexbox interface. I also opted to expand the project slightly beyond the usual intro project scope by adding a touch of OOP and re-using my input objects to create a floating operations history.  
