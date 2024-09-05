@@ -27,6 +27,14 @@ console.log(calc1);
 
 
 
+
+//randomize background
+function randomNumber() {
+    const minCeiled = Math.ceil(0.1);
+    const maxFloored = Math.floor(99.9);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+  }
+
 //make a layout depending on screen size
 
 let id = 0;
