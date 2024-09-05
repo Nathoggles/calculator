@@ -64,35 +64,37 @@ populateDivs();
 */
 let id = 0;
 
-function populateRow() {
-    for (let i = 1; i <= 9; i++) {
+function populateRow(rowCount,rowBasis, rowHeight) {
+    for (let i = 1; i <= rowCount; i++) {
         const div = document.createElement("div");
         id ++;
+        console.log(id);
         div.setAttribute("class", "divs");
         div.setAttribute("id", "div" + id);
-        div.style.flexBasis = `${100 / 9}%`;
-        div.style.height = `${100 / 10}%`;
+        console.log(div);
+        div.style.flexBasis = rowBasis;
+        div.style.height = rowHeight;
         allContainer.appendChild(div);  
         
     }
 }
 
-function populateSideContainer(){
+function populateSideContainer(sideCount, sideBasis, sideHeight){
     const sideContainer = document.createElement("div");
     sideContainer.setAttribute("class", "sideContainer");
     allContainer.appendChild(sideContainer);
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= sideCount; i++) {
         const div = document.createElement("div");
         id ++;
         div.setAttribute("class", "divs");
         div.setAttribute("id", "div" + id);
-        div.style.flexBasis = `${100 / 3}%`;
-        div.style.height = `${100 / 8}%`;
+        div.style.flexBasis = sideBasis;
+        div.style.height = sideHeight;
         sideContainer.appendChild(div);    
     } 
 }
 
-function getScreenSize() {
+function populatePage() {
     const width = window.innerWidth;
     console.log({width});
     if (width < 600) {
@@ -103,7 +105,7 @@ function getScreenSize() {
         const sideBasis = `100%`;
         const sideHeight = `${100 / 8}%`;
 
-        populatePage();
+        makeDivs();
     } 
     const rowCount = 9;
     const rowBasis = `${100 / 9}%`;
@@ -112,10 +114,10 @@ function getScreenSize() {
     const sideBasis = `${100 / 3}%`;
     const sideHeight = `${100 / 8}%`;
 
-    populatePage();
+    makeDivs();
 }
 
-function populatePage() {
+function makeDivs() {
     populateRow();
     populateSideContainer();
     const calculator = document.querySelector("#calculator");
@@ -123,5 +125,13 @@ function populatePage() {
     populateSideContainer();
     populateRow();
 }
-populatePage();
 
+//populatePage();
+
+    const rowCount = 9;
+    const rowBasis = `${100 / 9}%`;
+    const rowHeight = `${100 / 10}%`;
+    const sideCount = 24;
+    const sideBasis = `${100 / 3}%`;
+    const sideHeight = `${100 / 8}%`;
+    

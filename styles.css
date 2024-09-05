@@ -15,15 +15,16 @@ body {
 @media (min-device-width: 600px) {
     
     #calculator {
-        /*flex-basis: 40vh;*/
+        flex-basis: 33.3333%;
     }
 }
 
 @media (max-device-width: 599px) {
     #calculator {
-     /**/
+        flex-basis: 60%;
     }
 }
+
 #allContainer {
     display: flex;
     justify-content:flex-start; 
@@ -57,7 +58,6 @@ body {
     padding: 0px;
     margin-bottom: 0;
     flex-shrink: auto;
-    flex-basis: 33.3333%;
     height: 80%;
     /*
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
