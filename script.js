@@ -44,6 +44,7 @@ function populateDivs(crossANumber) {
  //   listener();
 }
 */
+/*
 function populateDivs() {
     for (let i = 1; i <= 66; i++) {
         const div = document.createElement("div");
@@ -60,28 +61,67 @@ function populateDivs() {
 }
 populateDivs();
 
+*/
+let id = 0;
+
 function populateRow() {
     for (let i = 1; i <= 9; i++) {
         const div = document.createElement("div");
+        id ++;
         div.setAttribute("class", "divs");
-        //div.setAttribute("id", "div" + i);
+        div.setAttribute("id", "div" + id);
         div.style.flexBasis = `${100 / 9}%`;
-        div.style.height = `${100 / 10}%`
-        allContainer.appendChild(div);    
+        div.style.height = `${100 / 10}%`;
+        allContainer.appendChild(div);  
+        
     }
 }
 
 function populateSideContainer(){
     const sideContainer = document.createElement("div");
     sideContainer.setAttribute("class", "sideContainer");
-    div.style.flexBasis = `${100 / 9}%`;
-    div.style.height = `${100 / 10}%`
+    allContainer.appendChild(sideContainer);
+    for (let i = 1; i <= 24; i++) {
+        const div = document.createElement("div");
+        id ++;
+        div.setAttribute("class", "divs");
+        div.setAttribute("id", "div" + id);
+        div.style.flexBasis = `${100 / 3}%`;
+        div.style.height = `${100 / 8}%`;
+        sideContainer.appendChild(div);    
+    } 
+}
+
+function getScreenSize() {
+    const width = window.innerWidth;
+    console.log({width});
+    if (width < 600) {
+        const rowCount = 5;
+        const rowBasis = `${100 / 5}%`;
+        const rowHeight = `${100 / 10}%`;
+        const sideCount = 8;
+        const sideBasis = `100%`;
+        const sideHeight = `${100 / 8}%`;
+
+        populatePage();
+    } 
+    const rowCount = 9;
+    const rowBasis = `${100 / 9}%`;
+    const rowHeight = `${100 / 10}%`;
+    const sideCount = 24;
+    const sideBasis = `${100 / 3}%`;
+    const sideHeight = `${100 / 8}%`;
+
+    populatePage();
 }
 
 function populatePage() {
     populateRow();
-
-
-
+    populateSideContainer();
+    const calculator = document.querySelector("#calculator");
+    allContainer.appendChild(calculator);
+    populateSideContainer();
     populateRow();
 }
+populatePage();
+

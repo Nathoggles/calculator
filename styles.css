@@ -37,14 +37,27 @@ body {
     padding: 0;
 }
 
+.sideContainer{
+    display: flex;
+    justify-content:flex-start; 
+    align-items:flex-start;
+    flex-flow: wrap;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    flex-basis: 33.3333%;
+    height: 80%;
+}
+
 #calculator {
     box-sizing: border-box;
     border: 1px white solid;
+    background: white solid;
     margin: 0px;
     padding: 0px;
     margin-bottom: 0;
     flex-shrink: auto;
-    width: 33.3333%;
+    flex-basis: 33.3333%;
     height: 80%;
     /*
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
