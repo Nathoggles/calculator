@@ -1,3 +1,8 @@
+//DOM elements
+const buttons = document.querySelectorAll("button");
+const calcButtons = document.querySelector()
+
+//calculation functions
 let multiply = "multiply";
 const allContainer = document.querySelector("#allContainer");
 
@@ -13,7 +18,7 @@ function CreateCalc(id) {
 const calc1 = new CreateCalc("calc1");
 calc1.num1 = 1;
 calc1.num2 = 2;
-console.log(calc1);
+
 
 
 function sum(calc) {
@@ -23,9 +28,18 @@ function sum(calc) {
 
 
 sum(calc1);
-console.log(calc1);
 
 
+//working on input
+let counter = 0;
+
+buttons.forEach((button) => ("click", (event) => {
+if (event.target.classList.contains("calc" && counter = 0)){
+counter++;
+}  
+}
+
+));
 
 
 //randomize background
@@ -49,7 +63,6 @@ function getPageData() {
         pageData.sideCount = 8;
         pageData.sideBasis = `100%`;
         pageData.sideHeight = `${100 / 8}%`;
-        console.table(pageData);
     } 
     else {
     pageData.rowCount = 9;
@@ -58,8 +71,7 @@ function getPageData() {
     pageData.sideCount = 24;
     pageData.sideBasis = `${100 / 3}%`;
     pageData.sideHeight = `${100 / 8}%`;
-
-    console.table(pageData);}
+}
 };
 
 
