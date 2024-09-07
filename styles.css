@@ -177,25 +177,52 @@ button {
     flex-basis: 23%;
     height: 14%;
     border: 1px #3b3b3b4d solid;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2), 0 0px 0px 0 rgba(0,0,0,0.19);
     color: white;
     font-size: 5.5vh;
-    background-color: #888689;
+    background-color: rgb(136, 134, 137);
 }
 
+button:hover{
+    background-color: rgb(116, 114, 117);
+}
+button:active{
+    background-color: rgb(106, 104, 107);
+}
+
+
 .operator {
-    background-color: #458a49;
+    background-color: rgb(69, 138, 73);
+}
+.operator:hover{
+    background-color: rgb(49, 138, 53);
+}
+.operator:active{
+    background-color: rgb(24, 138, 33);
 }
 
 #equal{
-   /* background-color: #a37448;*/
-   background-color: #48a34d;
-   /*background-color: #898a45;*/
+   background-color: rgb(72, 163, 77);
     font-weight: 900;
 }
 
+#equal:hover{
+    background-color: rgb(72, 143, 77);
+ }
+ #equal:hover{
+    background-color: rgb(52, 143, 57);
+ }
+ #equal:active{
+    background-color: rgb(27, 143, 37);
+ }
+
 #C{
-    background-color: #b15050;
+    background-color: rgb(177, 80, 80);
+}
+#C:hover{
+    background-color: rgb(177, 60, 60);
+}
+#C:active{
+    background-color: rgb(177, 40, 40);
 }
 
 .divs {

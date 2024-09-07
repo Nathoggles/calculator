@@ -1,24 +1,77 @@
 //DOM elements
 const buttons = document.querySelectorAll("button");
-const calcButtons = document.querySelector()
+const allContainer = document.querySelector("#allContainer");
+
+// Object to store generated objects
+const calcStorage = {};
+let calcCounter = 1;
+    // Dynamic generator of calculation objects
+    function generateCalcs() {
+            let key = `${calcCounter}`
+            calcStorage[key] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
+            return calcStorage[key];
+}
+
+//calcCounter++;
+
+//working on input
+let phaseCounter = 0;
+
+
+//listener uses global phaseCounter to check step of the calculation, generates a new calculation sub-object (calcStorage[`${calcCounter - 1}`]) 
+//and fills its keys with corresponding input
+buttons.forEach((button) => 
+    button.addEventListener("click", (event) => {
+if (event.target.classList.contains("calc") && phaseCounter == 0){
+    //create obj.
+    generateCalcs();}
+    phaseCounter = 1;
+if (event.target.classList.contains("calc") && phaseCounter == 0 || phaseCounter == 1){
+   //console.log(calcStorage[`${calcCounter}`].num1);
+    calcStorage[`${calcCounter}`].num1 += event.target.textContent;
+if (event.target.classList.contains("operator") &&phaseCounter == 0 || phaseCounter == 1)
+    calcStorage[`${calcCounter}`].operator = event.target.textContent;
+    //console.log(calcStorage[`${calcCounter}`].operator);
+    //console.log(calcStorage[`${calcCounter}`].num1);
+    //phaseCounter = 2;
+}
+}
+));
 
 //calculation functions
 let multiply = "multiply";
-const allContainer = document.querySelector("#allContainer");
 
-function CreateCalc(id) {
+
+
+ //constructor function, prbly not needed.
+ /*
+function CreateCalc(name) {
     this.name;
+    console.log(this.name);
     this.num1;
     this.operator;
     this.num2;
     this.result;
 }
+*/
 
-
-const calc1 = new CreateCalc("calc1");
+/*const calc1 = new CreateCalc("calc1");
 calc1.num1 = 1;
-calc1.num2 = 2;
+calc1.num2 = 2;*/
 
+
+/*
+generateCalcs();
+generateCalcs();
+generateCalcs();
+console.log(calcStorage);
+console.log(calcStorage['1']);
+calcStorage['1'].num1 = 2;
+
+console.log(calcStorage['1'].num1);*/
+ 
+
+///calc functions
 
 
 function sum(calc) {
@@ -27,19 +80,7 @@ function sum(calc) {
 }
 
 
-sum(calc1);
 
-
-//working on input
-let counter = 0;
-
-buttons.forEach((button) => ("click", (event) => {
-if (event.target.classList.contains("calc" && counter = 0)){
-counter++;
-}  
-}
-
-));
 
 
 //randomize background
