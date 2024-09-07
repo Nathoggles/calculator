@@ -6,13 +6,14 @@ const allContainer = document.querySelector("#allContainer");
 const calcStorage = {};
 let calcCounter = 1;
     // Dynamic generator of calculation objects
+    //check if can do without key
     function generateCalcs() {
             let key = `${calcCounter}`
             calcStorage[key] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
-            return calcStorage[key];
+             calcStorage[key];
 }
 
-//calcCounter++;
+
 
 //working on input
 let phaseCounter = 0;
@@ -22,21 +23,36 @@ let phaseCounter = 0;
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
+       // console.log(event.target);
+        console.log(phaseCounter);
 if (event.target.classList.contains("calc") && phaseCounter == 0){
     //create obj.
-    generateCalcs();}
+    generateCalcs();
     phaseCounter = 1;
-if (event.target.classList.contains("calc") && phaseCounter == 0 || phaseCounter == 1){
+}
+    //console.log(event.target.classList);
+if (event.target.classList.contains("calc")) {
+    if (phaseCounter == 0 || phaseCounter == 1)    
+    {
    //console.log(calcStorage[`${calcCounter}`].num1);
     calcStorage[`${calcCounter}`].num1 += event.target.textContent;
-if (event.target.classList.contains("operator") &&phaseCounter == 0 || phaseCounter == 1)
+    } if (phaseCounter == 2) {
+        calcStorage[`${calcCounter}`].num2 += event.target.textContent;
+    }
+} if ((event.target.classList.contains("operator") && phaseCounter == 0) || (event.target.classList.contains("operator") && phaseCounter == 1)){
     calcStorage[`${calcCounter}`].operator = event.target.textContent;
     //console.log(calcStorage[`${calcCounter}`].operator);
     //console.log(calcStorage[`${calcCounter}`].num1);
-    //phaseCounter = 2;
+    phaseCounter = 2;
+} if (event.target.id == "equal" && phaseCounter == 2) {
+    //run calculation
+    console.log(phaseCounter);
+    phaseCounter = 0;
+    console.log(phaseCounter);
+    calcCounter ++;
 }
-}
-));
+    //if classList contains operator && phase counter is 2, also give result and reset counter, but also move result into num1 of new obj and operator in its operator.key value
+}));
 
 //calculation functions
 let multiply = "multiply";
