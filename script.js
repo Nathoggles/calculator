@@ -6,9 +6,13 @@ const display = document.querySelector("#M");
 // Object to store generated objects
 const calcStorage = {};
 let calcCounter = 0;
+let phaseCounter = 1;
+
+
     // Dynamic generator of calculation objects
     //check if can do without key
     function generateCalcs() {
+        phaseCounter = 1;
         calcCounter++;
             let key = `${calcCounter}`
             calcStorage[key] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
@@ -18,7 +22,7 @@ let calcCounter = 0;
 
 
 //working on input
-let phaseCounter = 1;
+
 generateCalcs();
 
 //listener uses global phaseCounter to check step of the calculation, generates a new calculation sub-object (calcStorage[`${calcCounter - 1}`]) 
@@ -26,11 +30,7 @@ generateCalcs();
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
        // console.log(event.target);
-  if (event.target.classList.contains("calc") && phaseCounter == 0){
-        //create obj.
-        phaseCounter = 1;
-        console.log(phaseCounter);
- } if (event.target.id == "C" && !(calcStorage[`${calcCounter}`].num1 == "")) {
+   if (event.target.id == "C" && !(calcStorage[`${calcCounter}`].num1 == "")) {
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
@@ -74,7 +74,6 @@ buttons.forEach((button) =>
         console.log(phaseCounter);
         generateCalcs();
         //result of prev calc (if needed in temp const) becomes num1 of new calcStorage[`${calcCounter}`] and operator input becomes new operator
-        phaseCounter = 1;
     }
 } if (event.target.id == "%") { //if % is added to the first number, divide it through 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     if (phaseCounter == 0 || phaseCounter == 1);{
@@ -86,18 +85,15 @@ buttons.forEach((button) =>
          calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          //delay 0.5 second and add populateDiv animation or do it with next input? 
          generateCalcs();
-         phaseCounter = 1;
          console.log(phaseCounter);
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
         generateCalcs();
-        phaseCounter = 0;
     }
 }if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
     //display result
     generateCalcs();
-    phaseCounter = 1;
     console.log(phaseCounter);
 }
     //if classList contains operator && phase counter is 2, also give result and reset counter, but also move result into num1 of new obj and operator in its operator.key value
