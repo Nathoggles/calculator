@@ -36,13 +36,15 @@ buttons.forEach((button) =>
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 0;
+    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
 } if (event.target.classList.contains("calc")) {
-    if (phaseCounter == 0 || phaseCounter == 1)    
+   // console.log(calcStorage[`${calcCounter}`].num1.length);
+    if ((phaseCounter == 0 || phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
     {
         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
         console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
-    } if (phaseCounter == 2) {
+    } if (phaseCounter == 2 && (calcStorage[`${calcCounter}`].num2.length <= 5)) {
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
         console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num2;
