@@ -68,10 +68,14 @@ buttons.forEach((button) =>
         phaseCounter = 2;
         console.log(phaseCounter);
     } else if (phaseCounter == 2) {
-        //run calculation //divide10
-        //display result
-        console.log(phaseCounter);
+        //run calculation 
+        calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
+        display.textContent = calcStorage[`${calcCounter}`].result;
+        let tempResult = calcStorage[`${calcCounter}`].result;
         generateCalcs();
+        calcStorage[`${calcCounter}`].num1 = tempResult;
+        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        phaseCounter = 2;
         //result of prev calc (if needed in temp const) becomes num1 of new calcStorage[`${calcCounter}`] and operator input becomes new operator
     }
 } if (event.target.id == "%") { //if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
@@ -113,7 +117,6 @@ function operate(num1, operator, num2) {
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
     if (operator == "-"){return substract(num1, num2);}
-
 }
 
 
