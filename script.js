@@ -1,6 +1,7 @@
 //DOM elements
 const buttons = document.querySelectorAll("button");
 const allContainer = document.querySelector("#allContainer");
+const display = document.querySelector("#M");
 
 // Object to store generated objects
 const calcStorage = {};
@@ -36,9 +37,11 @@ if (event.target.classList.contains("calc")) {
     {
         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
         console.log(phaseCounter);
+        display.textContent =  calcStorage[`${calcCounter}`].num1;
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
         console.log(phaseCounter);
+        display.textContent =  calcStorage[`${calcCounter}`].num2;
     }
 } if ((event.target.classList.contains("operator"))){
     if (phaseCounter == 0 || phaseCounter == 1) {
@@ -47,9 +50,11 @@ if (event.target.classList.contains("calc")) {
         console.log(phaseCounter);
     } else if (phaseCounter == 2) {
         //run calculation
-        phaseCounter = 0
         calcCounter++;
         console.log(phaseCounter);
+        generateCalcs();
+        //result of prev calc (if needed in temp const) becomes num1 of new calcStorage[`${calcCounter}`] and operator input becomes new operator
+        phaseCounter = 0
     }
 } if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
@@ -63,7 +68,13 @@ if (event.target.classList.contains("calc")) {
 //calculation functions
 let multiply = "multiply";
 
+function operate(num1, operator, num2) {
+    if (operator == "*"){return multiply();}
+    if (operator == "/"){return divide();}
+    if (operator == "+"){return sum();}
+    if (operator == "-"){return substract();}
 
+}
 
  //constructor function, prbly not needed.
  /*
