@@ -79,12 +79,12 @@ buttons.forEach((button) =>
     }
 } if (event.target.id == "%") { //if % is added to the first number, divide it through 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     if (phaseCounter == 0 || phaseCounter == 1);{
-         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          //run calculation
          let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
          calcStorage[`${calcCounter}`].result = divide100.toString();
          //display result
          display.textContent =  calcStorage[`${calcCounter}`].result;
+         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          //delay 0.5 second and add populateDiv animation or do it with next input? 
          phaseCounter = 0;
          calcCounter ++;
