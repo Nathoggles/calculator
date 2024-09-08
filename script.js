@@ -24,32 +24,38 @@ let phaseCounter = 0;
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
        // console.log(event.target);
-        console.log(phaseCounter);
 if (event.target.classList.contains("calc") && phaseCounter == 0){
     //create obj.
     generateCalcs();
     phaseCounter = 1;
+    console.log(phaseCounter);
 }
     //console.log(event.target.classList);
 if (event.target.classList.contains("calc")) {
     if (phaseCounter == 0 || phaseCounter == 1)    
     {
-   //console.log(calcStorage[`${calcCounter}`].num1);
-    calcStorage[`${calcCounter}`].num1 += event.target.textContent;
+        calcStorage[`${calcCounter}`].num1 += event.target.textContent;
+        console.log(phaseCounter);
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
+        console.log(phaseCounter);
     }
-} if ((event.target.classList.contains("operator") && phaseCounter == 0) || (event.target.classList.contains("operator") && phaseCounter == 1)){
-    calcStorage[`${calcCounter}`].operator = event.target.textContent;
-    //console.log(calcStorage[`${calcCounter}`].operator);
-    //console.log(calcStorage[`${calcCounter}`].num1);
-    phaseCounter = 2;
+} if ((event.target.classList.contains("operator"))){
+    if (phaseCounter == 0 || phaseCounter == 1) {
+        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        phaseCounter = 2;
+        console.log(phaseCounter);
+    } else if (phaseCounter == 2) {
+        //run calculation
+        phaseCounter = 0
+        calcCounter++;
+        console.log(phaseCounter);
+    }
 } if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
-    console.log(phaseCounter);
     phaseCounter = 0;
-    console.log(phaseCounter);
     calcCounter ++;
+    console.log(phaseCounter);
 }
     //if classList contains operator && phase counter is 2, also give result and reset counter, but also move result into num1 of new obj and operator in its operator.key value
 }));
