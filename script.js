@@ -36,6 +36,15 @@ buttons.forEach((button) =>
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 0;
+} if (event.target.id == "back"){
+    if (phaseCounter == 1){
+        calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
+        display.textContent =  calcStorage[`${calcCounter}`].num1;
+    }
+    if (phaseCounter == 2) {
+        calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num2.slice(0, -1);
+        display.textContent =  calcStorage[`${calcCounter}`].num2;
+    }
 } if (event.target.classList.contains("calc")) {
     //avoid two dots in one string
     if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
