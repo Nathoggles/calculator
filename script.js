@@ -36,9 +36,12 @@ buttons.forEach((button) =>
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 0;
-    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
 } if (event.target.classList.contains("calc")) {
-   // console.log(calcStorage[`${calcCounter}`].num1.length);
+    //avoid two dots in one string
+    if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
+        (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
+        ){return;}
+   //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
     if ((phaseCounter == 0 || phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
     {
         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
