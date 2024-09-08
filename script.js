@@ -36,14 +36,16 @@ buttons.forEach((button) =>
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 0;
-} if (event.target.id == "back"){
-    if (phaseCounter == 1){
+} if (event.target.id == "back"){ // add zero if string is ""
+    if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
+            if (calcStorage[`${calcCounter}`].num1 == ""){display.textContent = "0"};
     }
-    if (phaseCounter == 2) {
+    if (phaseCounter == 2 && !(calcStorage[`${calcCounter}`].num2 == "")) {
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num2.slice(0, -1);
         display.textContent =  calcStorage[`${calcCounter}`].num2;
+        if (calcStorage[`${calcCounter}`].num2 == ""){display.textContent = "0"};
     }
 } if (event.target.classList.contains("calc")) {
     //avoid two dots in one string
