@@ -29,13 +29,12 @@ generateCalcs();
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
-       // console.log(event.target);
    if (event.target.id == "C" && !(calcStorage[`${calcCounter}`].num1 == "")) {
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
-    phaseCounter = 0;
+    phaseCounter = 1;
 } if (event.target.id == "back"){ // add zero if string is ""
     if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
@@ -53,7 +52,7 @@ buttons.forEach((button) =>
         (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
         ){return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
-    if ((phaseCounter == 0 || phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
+    if ((phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
     {
         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
         console.log(phaseCounter);
@@ -64,7 +63,7 @@ buttons.forEach((button) =>
         display.textContent =  calcStorage[`${calcCounter}`].num2;
     }
 } if ((event.target.classList.contains("operator"))){
-    if (phaseCounter == 0 || phaseCounter == 1) {
+    if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
         console.log(phaseCounter);
@@ -75,10 +74,10 @@ buttons.forEach((button) =>
         generateCalcs();
         //result of prev calc (if needed in temp const) becomes num1 of new calcStorage[`${calcCounter}`] and operator input becomes new operator
     }
-} if (event.target.id == "%") { //if % is added to the first number, divide it through 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
-    if (phaseCounter == 0 || phaseCounter == 1);{
+} if (event.target.id == "%") { //if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
+    let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
+    if (phaseCounter == 1){
          //run calculation
-         let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
          calcStorage[`${calcCounter}`].result = divide100.toString();
          //display result
          display.textContent =  calcStorage[`${calcCounter}`].result;
@@ -87,8 +86,12 @@ buttons.forEach((button) =>
          generateCalcs();
          console.log(phaseCounter);
     } if (phaseCounter == 2) {
+        calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
+        console.log(calcStorage[`${calcCounter}`].result);
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
+        display.textContent =  calcStorage[`${calcCounter}`].result;
         generateCalcs();
+        console.log(phaseCounter);
     }
 }if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
@@ -100,14 +103,22 @@ buttons.forEach((button) =>
 }));
 
 //calculation functions
-let multiply = "multiply";
+
 
 function operate(num1, operator, num2) {
-    if (operator == "*"){return multiply();}
-    if (operator == "/"){return divide();}
-    if (operator == "+"){return sum();}
-    if (operator == "-"){return substract();}
+    if (operator == "*"){return multiply(num1, num2);}
+    if (operator == "/"){return divide(num1, num2);}
+    if (operator == "+"){return sum(num1, num2);}
+    if (operator == "-"){return substract(num1, num2);}
 
+}
+
+function multiply(num1, num2) {
+    console.log(parseFloat(num1));
+    console.log(parseFloat(num2));
+    let result = parseFloat(num1) * parseFloat(num2);
+    let resultString = result.toString().slice(0,5);;
+    return resultString;
 }
 
  //constructor function, prbly not needed.
