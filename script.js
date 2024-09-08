@@ -35,7 +35,7 @@ buttons.forEach((button) =>
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 1;
-} if (event.target.id == "back"){ // add zero if string is ""
+} if (event.target.id == "back"){ // delete the last character and set display to zero if string is ""
     if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
@@ -95,7 +95,10 @@ buttons.forEach((button) =>
     }
 }if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
+    calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
+    console.log(calcStorage[`${calcCounter}`].result);
     //display result
+    display.textContent =  calcStorage[`${calcCounter}`].result;
     generateCalcs();
     console.log(phaseCounter);
 }
@@ -108,15 +111,34 @@ buttons.forEach((button) =>
 function operate(num1, operator, num2) {
     if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
-    if (operator == "+"){return sum(num1, num2);}
+    if (operator == "+"){return summ(num1, num2);}
     if (operator == "-"){return substract(num1, num2);}
 
 }
 
+
 function multiply(num1, num2) {
-    console.log(parseFloat(num1));
-    console.log(parseFloat(num2));
     let result = parseFloat(num1) * parseFloat(num2);
+    //add move result string into operate function and add check that trunct everything after .0;
+    let resultString = result.toString().slice(0,5);;
+    return resultString;
+}
+
+function divide(num1, num2) {
+    let result = parseFloat(num1) / parseFloat(num2);
+    let resultString = result.toString().slice(0,5);;
+    return resultString;
+}
+
+function summ(num1, num2) {
+    console.log(num1, num2);
+    let result = parseFloat(num1) + parseFloat(num2);
+    let resultString = result.toString().slice(0,5);;
+    return resultString;
+}
+
+function substract(num1, num2) {
+    let result = parseFloat(num1) - parseFloat(num2);
     let resultString = result.toString().slice(0,5);;
     return resultString;
 }
