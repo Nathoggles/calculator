@@ -25,17 +25,17 @@ let phaseCounter = 0;
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
        // console.log(event.target);
-if (event.target.id == "C") {
+  if (event.target.classList.contains("calc") && phaseCounter == 0){
+        //create obj.
+        generateCalcs();
+        phaseCounter = 1;
+        console.log(phaseCounter);
+ } if (event.target.id == "C") {
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 0;
-} if (event.target.classList.contains("calc") && phaseCounter == 0){
-    //create obj.
-    generateCalcs();
-    phaseCounter = 1;
-    console.log(phaseCounter);
 } if (event.target.classList.contains("calc")) {
     if (phaseCounter == 0 || phaseCounter == 1)    
     {

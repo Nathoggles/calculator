@@ -190,13 +190,13 @@ button:active{
 }
 
 
-.operator {
+.operator, .pseudoop {
     background-color: rgb(69, 138, 73);
 }
-.operator:hover{
+.operator:hover, .pseudoop:hover{
     background-color: rgb(49, 138, 53);
 }
-.operator:active{
+.operator:active, .pseudoop:active{
     background-color: rgb(24, 138, 33);
 }
 
