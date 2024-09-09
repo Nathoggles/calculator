@@ -74,21 +74,44 @@ if phasecounter 1 = tempObject.num = num1
 if 2 = 2;
 
 */
-//listener uses global phaseCounter to check step of the calculation, generates a new calculation sub-object (calcStorage[`${calcCounter - 1}`]) 
-//and fills its keys with corresponding input
+//Global button click listener
+
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
     display.style.fontSize = "18vh";
     setTempNum();
     console.log(tempNum.num);
     console.log(calcStorage[`${calcCounter}`].num1);
-   if (event.target.id == "C" && (!display.textContent == "")) {//on pressing the C (reset) button
+      if (event.target.id == "C" && (!display.textContent == "")) {
+    onC();
+    } if (event.target.id == "back"){
+    onBack();
+    } if (event.target.classList.contains("calc")) {
+    onNumber(event);
+} if (event.target.id == "+-") {
+    onPlusMinus();
+} if ((event.target.classList.contains("operator"))){
+    onOperator(event);
+} if (event.target.id == "%") { 
+    onPercent(event);
+}if (event.target.id == "equal" && phaseCounter == 2) {
+    onEqual();
+}
+}));
+
+//Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[`${calcCounter}`]) 
+//and fill its keys with corresponding input
+
+function onC(){
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 1;
-} if (event.target.id == "back"){ //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
+}
+
+function onBack()
+    { //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
         if ((tempResult == display.textContent) || (tempResult == tempNum.num)) {
             calcStorage[`${calcCounter}`].num1 = "";
             calcStorage[`${calcCounter}`].num2 = "";
@@ -100,11 +123,11 @@ buttons.forEach((button) =>
             updateNum();
             if (tempNum.num == "") {display.textContent = "0";}
         } 
-} if (event.target.classList.contains("calc")) { //on pressing a number or dot button 
+}
+
+function onNumber(event){
     //avoid two dots in one string
-    if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
-        (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
-        ){return;}
+    if ((event.target.id == "dot" && tempNum.num.includes(".")) ){ return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
     if ((tempNum.num.length <= 3 &&  width < 1100) || (tempNum.num.length <= 4 && width >= 1100 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
         console.log(width);
@@ -113,17 +136,21 @@ buttons.forEach((button) =>
         display.textContent = tempNum.num;
         updateNum();
     } 
-} if (event.target.id == "+-") {// on pressing the +- button
-        if (!plusMinus){
-            tempNum.num = "-" + tempNum.num;
-         }
-        if (plusMinus){
-            tempNum.num = tempNum.num.slice(1);
-        }
-        display.textContent = tempNum.num 
-        updateNum();
-        plusMinus = !plusMinus;
-} if ((event.target.classList.contains("operator"))){ //on pressing an operator button
+}
+
+function onPlusMinus() {
+    if (!plusMinus){
+        tempNum.num = "-" + tempNum.num;
+     }
+    if (plusMinus){
+        tempNum.num = tempNum.num.slice(1);
+    }
+    display.textContent = tempNum.num 
+    updateNum();
+    plusMinus = !plusMinus;
+}
+
+function onOperator(event){
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
@@ -142,7 +169,10 @@ buttons.forEach((button) =>
         phaseCounter = 2;
         console.table(calcStorage[`${calcCounter}`]);
     }
-} if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
+}
+
+function onPercent(event){
+    //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
@@ -156,12 +186,15 @@ buttons.forEach((button) =>
         displayResults(calcStorage[`${calcCounter}`].result);
         generateCalcs();
     }
-}if (event.target.id == "equal" && phaseCounter == 2) { //on pressing the = button
+}
+
+function onEqual(){
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     displayResults(calcStorage[`${calcCounter}`].result);
     generateCalcs();
 }
-}));
+
+
 
 //calculation functions
 
