@@ -36,6 +36,15 @@ div{
     }
 }
 
+@media (orientation:portrait){
+    #calculator {
+        flex-basis: 60%;
+    }
+    .sideContainer {
+        flex-basis: 20%;
+    }
+}
+
 #allContainer {
     display: flex;
     justify-content:flex-start; 

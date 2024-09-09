@@ -2,6 +2,7 @@
 const buttons = document.querySelectorAll("button");
 const allContainer = document.querySelector("#allContainer");
 const display = document.querySelector("#M");
+const width = window.innerWidth;
 
 // Object to store generated objects
 const calcStorage = {};
@@ -29,7 +30,19 @@ let tempNum = {};
 function displayResults(result) {
     display.textContent = result;
     tempResult = calcStorage[`${calcCounter}`].result;
-    if (result.length > 5) {
+    if (result.length > 3 &&  width < 600) {
+        display.style.fontSize = "4vh";
+        console.log(display.style.fontSize);   
+    }
+    else if (result.length > 4 &&  width < 800) {
+        display.style.fontSize = "6vh";
+        console.log(display.style.fontSize);   
+    }
+    else if (result.length > 5 &&  width < 1300) {
+        display.style.fontSize = "9vh";
+        console.log(display.style.fontSize);   
+    }
+   else if (result.length > 6 &&  width >= 1500) {
         display.style.fontSize = "9vh";
         console.log(display.style.fontSize);
     }
@@ -76,12 +89,12 @@ buttons.forEach((button) =>
     display.textContent = "0";
     phaseCounter = 1;
 } if (event.target.id == "back"){ //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
-        /*if ((calcStorage[`${calcCounter}`].num1 == "") && (display.textContent != "")) {
+        if ((tempResult == display.textContent) || (tempResult == tempNum.num)) {
             calcStorage[`${calcCounter}`].num1 = "";
             calcStorage[`${calcCounter}`].num2 = "";
             calcStorage[`${calcCounter}`].operator = "";
             display.textContent = "0";  
-        }*/ if (display.textContent == tempNum.num) {
+        } if (display.textContent == tempNum.num) {
             tempNum.num = tempNum.num.slice(0, -1);
             display.textContent = tempNum.num;
             updateNum();
@@ -93,14 +106,22 @@ buttons.forEach((button) =>
         (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
         ){return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
-    if ((phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
-    {
-        calcStorage[`${calcCounter}`].num1 += event.target.textContent;
-        display.textContent =  calcStorage[`${calcCounter}`].num1;
-    } if (phaseCounter == 2 && (calcStorage[`${calcCounter}`].num2.length <= 5)) {
-        calcStorage[`${calcCounter}`].num2 += event.target.textContent;
-        display.textContent =  calcStorage[`${calcCounter}`].num2;
-    }
+    if ((tempNum.num.length <= 3 &&  width < 1100)) {
+        console.log(width);
+        console.log(tempNum.num.length);
+        tempNum.num += event.target.textContent;
+        display.textContent = tempNum.num;
+        updateNum();
+    } else if ((tempNum.num.length <= 4 && width >= 1100 && width < 1500)) {
+        console.log(width);
+        tempNum.num += event.target.textContent;
+        display.textContent = tempNum.num;
+        updateNum();
+    } else if ((tempNum.num.length <= 6 &&  width >= 1500)) {
+    console.log(width);
+    tempNum.num += event.target.textContent;
+    display.textContent = tempNum.num;
+    updateNum();}
 } if (event.target.id == "+-") {// on pressing the +- button
     if (phaseCounter == 1) {
         if (!plusMinus){
@@ -125,9 +146,13 @@ buttons.forEach((button) =>
 } if ((event.target.classList.contains("operator"))){ //on pressing an operator button
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
+            calcStorage[`${calcCounter}`].num1 = tempResult;
+        }
         phaseCounter = 2;
         plusMinus = false;
-    } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+    }
+    else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
         if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayResults(calcStorage[`${calcCounter}`].result);
@@ -253,7 +278,6 @@ let id = 0;
 
 const pageData = {};
 function getPageData() {
-    const width = window.innerWidth;
     if (width < 600) {
         pageData.rowCount = 5;
         pageData.rowBasis = `${100 / 5}%`;
