@@ -261,4 +261,5 @@ button:active{
     padding: 0px;
     margin-bottom: 0;
     flex-shrink: auto;
+    color: white;
 }

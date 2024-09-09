@@ -29,7 +29,6 @@ let tempNum = {};
 //!!don't forget to update div fontsize if result is long!!
 
 function displayResults(result) {
-    console.log(width);
     display.textContent = result;
     tempResult = calcStorage[`${calcCounter}`].result;
     if (result.length > 3 &&  width < 600) {
@@ -243,33 +242,7 @@ function substract(num1, num2) {
     return resultString;
 }
 
- //constructor function, prbly not needed.
- /*
-function CreateCalc(name) {
-    this.name;
-    console.log(this.name);
-    this.num1;
-    this.operator;
-    this.num2;
-    this.result;
-}
-*/
 
-/*const calc1 = new CreateCalc("calc1");
-calc1.num1 = 1;
-calc1.num2 = 2;*/
-
-
-/*
-generateCalcs();
-generateCalcs();
-generateCalcs();
-console.log(calcStorage);
-console.log(calcStorage['1']);
-calcStorage['1'].num1 = 2;
-
-console.log(calcStorage['1'].num1);*/
- 
 
 ///calc functions
 
@@ -283,12 +256,6 @@ function sum(calc) {
 
 
 
-//randomize background
-function randomNumber() {
-    const minCeiled = Math.ceil(0.1);
-    const maxFloored = Math.floor(99.9);
-    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
-  }
 
 //make a layout depending on screen size
 
@@ -361,9 +328,41 @@ function populateSideContainer(sideCount, sideBasis, sideHeight){
 getPageData();
 makeDivs();
 
+const divs = document.querySelectorAll(".divs");
+function createDummyCalcs(){
+    for (i = 0; i < 5; i++){
+        let divId = randomNumber(1, divs.length);
+        let randomObj = createRandomObj();
+        randomObj.result = operate(randomObj.num1, randomObj.operator, randomObj.num2);
+        console.log(randomObj.result.indexOf("."))
+        randomObj.result = randomObj.result.indexOf(".") > 0 ? randomObj.result.slice(0, randomObj.result.indexOf(".") + 3) : randomObj.result; 
+        let div = document.querySelector(`#div${divId}`);
+        div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;
+        //console.table(randomObj);
+    }}
+
+function createRandomObj(){
+    const randomObj = {};
+    randomObj.num1 = randomNumber(-100, 99);
+    randomObj.operator = getRandomOperator();
+    randomObj.num2 = randomNumber(-100, 99);
+    return randomObj;
+}
+
+function getRandomOperator(){
+    let randomN = randomNumber(1,5);
+    if (randomN == 1) {return "/";}
+    if (randomN == 2) {return "*";}
+    if (randomN == 3) {return "-";}
+    if (randomN == 4) {return "+";}
+}
+createDummyCalcs();
 
 
 
+function randomNumber(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+  }
 
-
-    
