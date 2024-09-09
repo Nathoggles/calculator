@@ -213,7 +213,7 @@ function operate(num1, operator, num2) {
     if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
-    if (operator == "-"){return substract(num1, num2);}
+    if (operator == "–"){return substract(num1, num2);}
 }
 
 
@@ -353,7 +353,7 @@ function getRandomOperator(){
     let randomN = randomNumber(1,5);
     if (randomN == 1) {return "/";}
     if (randomN == 2) {return "*";}
-    if (randomN == 3) {return "-";}
+    if (randomN == 3) {return "–";}
     if (randomN == 4) {return "+";}
 }
 createDummyCalcs();

@@ -262,4 +262,6 @@ button:active{
     margin-bottom: 0;
     flex-shrink: auto;
     color: white;
+    font-family: 'Chalk';
+    font-weight: 600;
 }
