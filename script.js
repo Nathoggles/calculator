@@ -21,6 +21,18 @@ let plusMinus = false;
              calcStorage[key];
 }
 
+//displaying results function that shrinks displayed results' font size if the number is large
+//!!don't forget to update div fontsize if result is long!!
+
+function displayResults(result) {
+    console.log("this!");
+    console.log(result.length);
+    display.textContent = result;
+    if (result.length > 5) {
+        display.style.fontSize = "9vh";
+        console.log(display.style.fontSize);
+    }
+}
 
 
 //working on input
@@ -69,11 +81,9 @@ buttons.forEach((button) =>
     if ((phaseCounter == 1) && ((calcStorage[`${calcCounter}`].num1.length <= 5)))    
     {
         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
-        console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
     } if (phaseCounter == 2 && (calcStorage[`${calcCounter}`].num2.length <= 5)) {
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
-        console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num2;
     }
 } if (event.target.id == "+-") {// on pressing the +- button
@@ -101,11 +111,10 @@ buttons.forEach((button) =>
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
-        console.log(phaseCounter);
     } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
         if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-        display.textContent = calcStorage[`${calcCounter}`].result;
+        displayResults(calcStorage[`${calcCounter}`].result);
         let tempResult = calcStorage[`${calcCounter}`].result;
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
@@ -117,28 +126,24 @@ buttons.forEach((button) =>
          //run calculation
          calcStorage[`${calcCounter}`].result = divide100.toString();
          //display result
-         display.textContent =  calcStorage[`${calcCounter}`].result;
+         displayResults(calcStorage[`${calcCounter}`].result);
          calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          //delay 0.5 second and add populateDiv animation or do it with next input? 
          generateCalcs();
-         console.log(phaseCounter);
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         console.log(calcStorage[`${calcCounter}`].result);
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
-        display.textContent =  calcStorage[`${calcCounter}`].result;
+        displayResults(calcStorage[`${calcCounter}`].result);
         generateCalcs();
-        console.log(phaseCounter);
     }
 }if (event.target.id == "equal" && phaseCounter == 2) { //on pressing the = button
     //run calculation
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     //display result
-    display.textContent =  calcStorage[`${calcCounter}`].result;
+    displayResults(calcStorage[`${calcCounter}`].result);
     generateCalcs();
-    console.log(phaseCounter);
 }
-    //if classList contains operator && phase counter is 2, also give result and reset counter, but also move result into num1 of new obj and operator in its operator.key value
 }));
 
 //calculation functions
