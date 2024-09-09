@@ -29,18 +29,18 @@ generateCalcs();
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
-   if (event.target.id == "C" && (!display.textContent == "")) {
+   if (event.target.id == "C" && (!display.textContent == "")) {//on pressing the C (reset) button
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 1;
-} if (event.target.id == "back"){ // delete the last character and set display to zero if string is ""
-    /*if (!(calcStorage[`${calcCounter}`].result == "")) {
+} if (event.target.id == "back"){ //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
+    if ((calcStorage[`${calcCounter}`].num1 == "") && (display.textContent != "")) {
         calcStorage[`${calcCounter}`].num1 = "";
         calcStorage[`${calcCounter}`].num2 = "";
         calcStorage[`${calcCounter}`].operator = "";
-        display.textContent = "0";*/
+        display.textContent = "0";
     } if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
@@ -51,7 +51,7 @@ buttons.forEach((button) =>
         display.textContent =  calcStorage[`${calcCounter}`].num2;
         if (calcStorage[`${calcCounter}`].num2 == ""){display.textContent = "0"};
     }
-} if (event.target.classList.contains("calc")) {
+} if (event.target.classList.contains("calc")) { //on pressing a number, % or dot button 
     //avoid two dots in one string
     if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
         (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
@@ -67,13 +67,12 @@ buttons.forEach((button) =>
         console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num2;
     }
-} if ((event.target.classList.contains("operator"))){
+} if ((event.target.classList.contains("operator"))){ //on pressing an operator button
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
         console.log(phaseCounter);
-    } else if (phaseCounter == 2) {
-        //run calculation 
+    } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         display.textContent = calcStorage[`${calcCounter}`].result;
         let tempResult = calcStorage[`${calcCounter}`].result;
@@ -81,9 +80,8 @@ buttons.forEach((button) =>
         calcStorage[`${calcCounter}`].num1 = tempResult;
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
-        //result of prev calc (if needed in temp const) becomes num1 of new calcStorage[`${calcCounter}`] and operator input becomes new operator
     }
-} if (event.target.id == "%") { //if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
+} if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          //run calculation
@@ -102,7 +100,7 @@ buttons.forEach((button) =>
         generateCalcs();
         console.log(phaseCounter);
     }
-}if (event.target.id == "equal" && phaseCounter == 2) {
+}if (event.target.id == "equal" && phaseCounter == 2) { //on pressing the = button
     //run calculation
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     //display result
