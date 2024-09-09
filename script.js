@@ -106,43 +106,23 @@ buttons.forEach((button) =>
         (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
         ){return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
-    if ((tempNum.num.length <= 3 &&  width < 1100)) {
+    if ((tempNum.num.length <= 3 &&  width < 1100) || (tempNum.num.length <= 4 && width >= 1100 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
         console.log(width);
         console.log(tempNum.num.length);
         tempNum.num += event.target.textContent;
         display.textContent = tempNum.num;
         updateNum();
-    } else if ((tempNum.num.length <= 4 && width >= 1100 && width < 1500)) {
-        console.log(width);
-        tempNum.num += event.target.textContent;
-        display.textContent = tempNum.num;
-        updateNum();
-    } else if ((tempNum.num.length <= 6 &&  width >= 1500)) {
-    console.log(width);
-    tempNum.num += event.target.textContent;
-    display.textContent = tempNum.num;
-    updateNum();}
+    } 
 } if (event.target.id == "+-") {// on pressing the +- button
-    if (phaseCounter == 1) {
         if (!plusMinus){
-        calcStorage[`${calcCounter}`].num1 = "-" + calcStorage[`${calcCounter}`].num1;
+            tempNum.num = "-" + tempNum.num;
          }
         if (plusMinus){
-        calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(1);
+            tempNum.num = tempNum.num.slice(1);
         }
-        display.textContent = calcStorage[`${calcCounter}`].num1;
+        display.textContent = tempNum.num 
+        updateNum();
         plusMinus = !plusMinus;
-    }
-    if (phaseCounter == 2) {
-        if (!plusMinus){
-            calcStorage[`${calcCounter}`].num2 = "-" + calcStorage[`${calcCounter}`].num2;
-             }
-            if (plusMinus){
-            calcStorage[`${calcCounter}`].num2 = calcStorage[`${calcCounter}`].num2.slice(1);
-            }
-            display.textContent = calcStorage[`${calcCounter}`].num2;
-            plusMinus = !plusMinus;
-    }
 } if ((event.target.classList.contains("operator"))){ //on pressing an operator button
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
@@ -165,12 +145,9 @@ buttons.forEach((button) =>
 } if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
-         //run calculation
          calcStorage[`${calcCounter}`].result = divide100.toString();
-         //display result
          displayResults(calcStorage[`${calcCounter}`].result);
          calcStorage[`${calcCounter}`].num1 += event.target.textContent;
-         //delay 0.5 second and add populateDiv animation or do it with next input? 
          generateCalcs();
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
@@ -180,9 +157,7 @@ buttons.forEach((button) =>
         generateCalcs();
     }
 }if (event.target.id == "equal" && phaseCounter == 2) { //on pressing the = button
-    //run calculation
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-    //display result
     displayResults(calcStorage[`${calcCounter}`].result);
     generateCalcs();
 }
