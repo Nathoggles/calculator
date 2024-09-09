@@ -16,40 +16,54 @@ let tempNum = {};
     // Dynamic generator of calculation objects
     //check if can do without key
     function generateCalcs() {
+        console.table(calcStorage);
         phaseCounter = 1;
         calcCounter++;
         plusMinus = false;
             let key = `${calcCounter}`
-            calcStorage[key] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
-             calcStorage[key];
+            calcStorage[`${calcCounter}`] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
+             calcStorage[`${calcCounter}`];
 }
 
 //displaying results function that shrinks displayed results' font size if the number is large
 //!!don't forget to update div fontsize if result is long!!
 
 function displayResults(result) {
+    console.log(width);
     display.textContent = result;
     tempResult = calcStorage[`${calcCounter}`].result;
     if (result.length > 3 &&  width < 600) {
-        display.style.fontSize = "4vh";
-        console.log(display.style.fontSize);   
-    }
-    else if (result.length > 4 &&  width < 800) {
-        display.style.fontSize = "6vh";
-        console.log(display.style.fontSize);   
-    }
-    else if (result.length > 5 &&  width < 1300) {
-        display.style.fontSize = "9vh";
-        console.log(display.style.fontSize);   
-    }
-   else if (result.length > 6 &&  width >= 1500) {
-        display.style.fontSize = "9vh";
-        console.log(display.style.fontSize);
-    }
+        if (result.length > 8) {
+            display.style.fontSize = "3vh";
+        }else if (result.length > 5) {
+            display.style.fontSize = "5vh";
+        } else {
+        display.style.fontSize = "8vh";  
+    }}
+    else if (result.length > 4 && width >=600 &&  width < 800) {
+        if (result.length > 8) {
+            display.style.fontSize = "8vh";
+        } else {
+        display.style.fontSize = "10vh";
+    }}
+    else if (result.length > 5 && width >=800 && width < 1500) {
+        if (result.length > 14) {
+            display.style.fontSize = "5vh";
+        }else if (result.length > 8) {
+            display.style.fontSize = "9vh";
+        } else {
+        display.style.fontSize = "12vh"; 
+    }}
+    else if (result.length > 6 &&  width >= 1500) {
+        if (result.length > 18) {
+            display.style.fontSize = "6vh";
+        } else {
+            display.style.fontSize = "9vh";
+    }}
 }
 
 //set a temporary num each time a button is pressed depending on the current state (before an operator is selected or after), 
-//allowing to declump the main input function and reduce if/else statements based on phaseCounter. 
+//allowing to declump the input functions and reduce if/else statements based on phaseCounter. 
 function setTempNum() {
     tempNum.num = calcStorage[`${calcCounter}`][`num${phaseCounter}`];
 }
@@ -80,8 +94,6 @@ buttons.forEach((button) =>
     button.addEventListener("click", (event) => {
     display.style.fontSize = "18vh";
     setTempNum();
-    console.log(tempNum.num);
-    console.log(calcStorage[`${calcCounter}`].num1);
       if (event.target.id == "C" && (!display.textContent == "")) {
     onC();
     } if (event.target.id == "back"){
@@ -130,8 +142,6 @@ function onNumber(event){
     if ((event.target.id == "dot" && tempNum.num.includes(".")) ){ return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
     if ((tempNum.num.length <= 3 &&  width < 1100) || (tempNum.num.length <= 4 && width >= 1100 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
-        console.log(width);
-        console.log(tempNum.num.length);
         tempNum.num += event.target.textContent;
         display.textContent = tempNum.num;
         updateNum();
@@ -181,7 +191,6 @@ function onPercent(event){
          generateCalcs();
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-        console.log(calcStorage[`${calcCounter}`].result);
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
         displayResults(calcStorage[`${calcCounter}`].result);
         generateCalcs();
@@ -197,6 +206,7 @@ function onEqual(){
 
 
 //calculation functions
+
 
 function operate(num1, operator, num2) {
 
