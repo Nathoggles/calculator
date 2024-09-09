@@ -8,6 +8,7 @@ const calcStorage = {};
 let calcCounter = 0;
 let phaseCounter = 1;
 let plusMinus = false;
+let tempResult;
 
 
     // Dynamic generator of calculation objects
@@ -25,9 +26,8 @@ let plusMinus = false;
 //!!don't forget to update div fontsize if result is long!!
 
 function displayResults(result) {
-    console.log("this!");
-    console.log(result.length);
     display.textContent = result;
+    tempResult = calcStorage[`${calcCounter}`].result;
     if (result.length > 5) {
         display.style.fontSize = "9vh";
         console.log(display.style.fontSize);
@@ -50,6 +50,7 @@ if 2 = 2;
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
+    display.style.fontSize = "18vh";
    if (event.target.id == "C" && (!display.textContent == "")) {//on pressing the C (reset) button
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
@@ -111,14 +112,14 @@ buttons.forEach((button) =>
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
+        plusMinus = false;
     } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
-        if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
+       // if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayResults(calcStorage[`${calcCounter}`].result);
-        let tempResult = calcStorage[`${calcCounter}`].result;
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
-        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        phaseCounter = 1;
     }
 } if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
