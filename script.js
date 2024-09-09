@@ -29,14 +29,19 @@ generateCalcs();
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
-   if (event.target.id == "C" && !(calcStorage[`${calcCounter}`].num1 == "")) {
+   if (event.target.id == "C" && (!display.textContent == "")) {
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
     display.textContent = "0";
     phaseCounter = 1;
 } if (event.target.id == "back"){ // delete the last character and set display to zero if string is ""
-    if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
+    /*if (!(calcStorage[`${calcCounter}`].result == "")) {
+        calcStorage[`${calcCounter}`].num1 = "";
+        calcStorage[`${calcCounter}`].num2 = "";
+        calcStorage[`${calcCounter}`].operator = "";
+        display.textContent = "0";*/
+    } if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
         calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
         display.textContent =  calcStorage[`${calcCounter}`].num1;
             if (calcStorage[`${calcCounter}`].num1 == ""){display.textContent = "0"};
@@ -100,7 +105,6 @@ buttons.forEach((button) =>
 }if (event.target.id == "equal" && phaseCounter == 2) {
     //run calculation
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-    console.log(calcStorage[`${calcCounter}`].result);
     //display result
     display.textContent =  calcStorage[`${calcCounter}`].result;
     generateCalcs();
@@ -134,7 +138,6 @@ function divide(num1, num2) {
 }
 
 function summ(num1, num2) {
-    console.log(num1, num2);
     let result = parseFloat(num1) + parseFloat(num2);
     let resultString = result.toString().slice(0,5);;
     return resultString;
