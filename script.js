@@ -36,19 +36,22 @@ function displayResults(result) {
 }
 
 //set a temporary num each time a button is pressed depending on the current state (before an operator is selected or after), 
-//allowing to declump the main input function and reduce if/else statements based on phaseCounter
+//allowing to declump the main input function and reduce if/else statements based on phaseCounter. 
 function setTempNum() {
-    if (phaseCounter == 1) {
-        tempNum.num = calcStorage[`${calcCounter}`].num1;
-    }
-    if (phaseCounter == 2 ) {
-        tempNum.num = calcStorage[`${calcCounter}`].num2;
-    }
+    tempNum.num = calcStorage[`${calcCounter}`][`num${phaseCounter}`];
 }
+
+//update the num in CalcStorage when tempNum.num is changed.
+function updateNum() {
+    calcStorage[`${calcCounter}`][`num${phaseCounter}`] = tempNum.num;
+}
+
 
 //working on input
 
 generateCalcs();
+
+
 
 
 
@@ -64,8 +67,8 @@ buttons.forEach((button) =>
     button.addEventListener("click", (event) => {
     display.style.fontSize = "18vh";
     setTempNum();
-    console.log({phaseCounter})
     console.log(tempNum.num);
+    console.log(calcStorage[`${calcCounter}`].num1);
    if (event.target.id == "C" && (!display.textContent == "")) {//on pressing the C (reset) button
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
@@ -81,19 +84,9 @@ buttons.forEach((button) =>
         }*/ if (display.textContent == tempNum.num) {
             tempNum.num = tempNum.num.slice(0, -1);
             display.textContent = tempNum.num;
+            updateNum();
             if (tempNum.num == "") {display.textContent = "0";}
-        } /*
-        if (phaseCounter == 1 && !(calcStorage[`${calcCounter}`].num1 == "") ){
-            calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(0, -1);
-            display.textContent =  calcStorage[`${calcCounter}`].num1;
-                if (calcStorage[`${calcCounter}`].num1 == ""){display.textContent = "0"};
-        }
-        if (phaseCounter == 2 && !(calcStorage[`${calcCounter}`].num2 == "")) {
-            calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num2.slice(0, -1);
-            display.textContent =  calcStorage[`${calcCounter}`].num2;
-            if (calcStorage[`${calcCounter}`].num2 == ""){display.textContent = "0"};
-        }
-        */
+        } 
 } if (event.target.classList.contains("calc")) { //on pressing a number or dot button 
     //avoid two dots in one string
     if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
