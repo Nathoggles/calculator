@@ -161,7 +161,7 @@ function onPlusMinus() {
 
 function onOperator(event){
     if (phaseCounter == 1) {
-        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        calcStorage[`${calcCounter}`].operator = event.target.id;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
             calcStorage[`${calcCounter}`].num1 = tempResult;
         }
@@ -186,7 +186,7 @@ function onPercent(event){
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
          displayResults(calcStorage[`${calcCounter}`].result);
-         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
+         calcStorage[`${calcCounter}`].num1 += event.target.id;
          generateCalcs();
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
@@ -213,7 +213,7 @@ function operate(num1, operator, num2) {
     if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
-    if (operator == "–"){return substract(num1, num2);}
+    if (operator == "-"){return substract(num1, num2);}
 }
 
 
@@ -246,11 +246,6 @@ function substract(num1, num2) {
 
 ///calc functions
 
-
-function sum(calc) {
-    calc.result = calc.num1 + calc.num2;
-    calc.operator = "+";
-}
 
 
 
@@ -334,11 +329,11 @@ function createDummyCalcs(){
         let divId = randomNumber(1, divs.length);
         let randomObj = createRandomObj();
         randomObj.result = operate(randomObj.num1, randomObj.operator, randomObj.num2);
-        console.log(randomObj.result.indexOf("."))
         randomObj.result = randomObj.result.indexOf(".") > 0 ? randomObj.result.slice(0, randomObj.result.indexOf(".") + 3) : randomObj.result; 
+        if (randomObj.operator == "*") {randomObj.operator = "x"};
+        console.log(randomObj.result.indexOf("."))
         let div = document.querySelector(`#div${divId}`);
         div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;
-        //console.table(randomObj);
     }}
 
 function createRandomObj(){
@@ -353,7 +348,7 @@ function getRandomOperator(){
     let randomN = randomNumber(1,5);
     if (randomN == 1) {return "/";}
     if (randomN == 2) {return "*";}
-    if (randomN == 3) {return "–";}
+    if (randomN == 3) {return "-";}
     if (randomN == 4) {return "+";}
 }
 createDummyCalcs();
