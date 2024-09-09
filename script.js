@@ -9,6 +9,7 @@ let calcCounter = 0;
 let phaseCounter = 1;
 let plusMinus = false;
 let tempResult;
+let tempNum = {};
 
 
     // Dynamic generator of calculation objects
@@ -34,10 +35,19 @@ function displayResults(result) {
     }
 }
 
+function setTempNum() {
+    if (phaseCounter = 1) {
+        tempNum.num = calcStorage[`${calcCounter}`].num2;
+    }
+    if (phaseCounter = 2 ) {
+        tempNum.num = calcStorage[`${calcCounter}`].num2;
+    }
+}
 
 //working on input
 
 generateCalcs();
+
 
 
 
@@ -51,6 +61,7 @@ if 2 = 2;
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
     display.style.fontSize = "18vh";
+    console.log(phaseCounter);
    if (event.target.id == "C" && (!display.textContent == "")) {//on pressing the C (reset) button
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
@@ -73,7 +84,7 @@ buttons.forEach((button) =>
         display.textContent =  calcStorage[`${calcCounter}`].num2;
         if (calcStorage[`${calcCounter}`].num2 == ""){display.textContent = "0"};
     }
-} if (event.target.classList.contains("calc")) { //on pressing a number, % or dot button 
+} if (event.target.classList.contains("calc")) { //on pressing a number or dot button 
     //avoid two dots in one string
     if ((event.target.id == "dot" && (calcStorage[`${calcCounter}`].num1.includes(".")) && phaseCounter !== 2) ||
         (event.target.id == "dot" && (calcStorage[`${calcCounter}`].num2.includes(".")) && phaseCounter == 2)
@@ -114,12 +125,14 @@ buttons.forEach((button) =>
         phaseCounter = 2;
         plusMinus = false;
     } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
-       // if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
+        if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayResults(calcStorage[`${calcCounter}`].result);
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
-        phaseCounter = 1;
+        calcStorage[`${calcCounter}`].operator = event.target.id;
+        phaseCounter = 2;
+        console.table(calcStorage[`${calcCounter}`]);
     }
 } if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
