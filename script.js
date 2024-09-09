@@ -7,6 +7,7 @@ const display = document.querySelector("#M");
 const calcStorage = {};
 let calcCounter = 0;
 let phaseCounter = 1;
+let plusMinus = false;
 
 
     // Dynamic generator of calculation objects
@@ -14,6 +15,7 @@ let phaseCounter = 1;
     function generateCalcs() {
         phaseCounter = 1;
         calcCounter++;
+        plusMinus = false;
             let key = `${calcCounter}`
             calcStorage[key] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
              calcStorage[key];
@@ -25,6 +27,13 @@ let phaseCounter = 1;
 
 generateCalcs();
 
+
+
+/*
+if phasecounter 1 = tempObject.num = num1
+if 2 = 2;
+
+*/
 //listener uses global phaseCounter to check step of the calculation, generates a new calculation sub-object (calcStorage[`${calcCounter - 1}`]) 
 //and fills its keys with corresponding input
 buttons.forEach((button) => 
@@ -67,19 +76,40 @@ buttons.forEach((button) =>
         console.log(phaseCounter);
         display.textContent =  calcStorage[`${calcCounter}`].num2;
     }
+} if (event.target.id == "+-") {// on pressing the +- button
+    if (phaseCounter == 1) {
+        if (!plusMinus){
+        calcStorage[`${calcCounter}`].num1 = "-" + calcStorage[`${calcCounter}`].num1;
+         }
+        if (plusMinus){
+        calcStorage[`${calcCounter}`].num1 = calcStorage[`${calcCounter}`].num1.slice(1);
+        }
+        display.textContent = calcStorage[`${calcCounter}`].num1;
+        plusMinus = !plusMinus;
+    }
+    if (phaseCounter == 2) {
+        if (!plusMinus){
+            calcStorage[`${calcCounter}`].num2 = "-" + calcStorage[`${calcCounter}`].num2;
+             }
+            if (plusMinus){
+            calcStorage[`${calcCounter}`].num2 = calcStorage[`${calcCounter}`].num2.slice(1);
+            }
+            display.textContent = calcStorage[`${calcCounter}`].num2;
+            plusMinus = !plusMinus;
+    }
 } if ((event.target.classList.contains("operator"))){ //on pressing an operator button
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
         console.log(phaseCounter);
     } else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+        if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         display.textContent = calcStorage[`${calcCounter}`].result;
         let tempResult = calcStorage[`${calcCounter}`].result;
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
-        phaseCounter = 2;
     }
 } if (event.target.id == "%") { //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
@@ -113,8 +143,9 @@ buttons.forEach((button) =>
 
 //calculation functions
 
-
 function operate(num1, operator, num2) {
+
+    // /0 "/0? RLY?" message goes here
     if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
@@ -125,25 +156,25 @@ function operate(num1, operator, num2) {
 function multiply(num1, num2) {
     let result = parseFloat(num1) * parseFloat(num2);
     //add move result string into operate function and add check that trunct everything after .0;
-    let resultString = result.toString().slice(0,5);;
+    let resultString = result.toString();//.slice(0,5);;
     return resultString;
 }
 
 function divide(num1, num2) {
     let result = parseFloat(num1) / parseFloat(num2);
-    let resultString = result.toString().slice(0,5);;
+    let resultString = result.toString();//.slice(0,5);;
     return resultString;
 }
 
 function summ(num1, num2) {
     let result = parseFloat(num1) + parseFloat(num2);
-    let resultString = result.toString().slice(0,5);;
+    let resultString = result.toString();//.slice(0,5);;
     return resultString;
 }
 
 function substract(num1, num2) {
     let result = parseFloat(num1) - parseFloat(num2);
-    let resultString = result.toString().slice(0,5);;
+    let resultString = result.toString();//.slice(0,5);;
     return resultString;
 }
 
