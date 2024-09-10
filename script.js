@@ -323,6 +323,13 @@ function populateSideContainer(sideCount, sideBasis, sideHeight){
 getPageData();
 makeDivs();
 
+function calcToDiv(num1, operator, num2, result){
+    let divId = randomNumber(1, divs.length);
+    let div = document.querySelector(`#div${divId}`);
+    if (operator == "*") {operator = "x"};
+    div.textContent = num1 + " " + operator + " " num2 + " = " + result; 
+}
+
 const divs = document.querySelectorAll(".divs");
 function createDummyCalcs(){
     for (i = 0; i < 5; i++){
