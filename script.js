@@ -7,7 +7,7 @@ const width = window.innerWidth;
 // Object to store generated objects
 const calcStorage = {};
 let calcCounter = 0;
-let phaseCounter = 1;
+let phaseCounter = 0;
 let plusMinus = false;
 let tempResult;
 let tempNum = {};
@@ -16,11 +16,12 @@ let tempNum = {};
     // Dynamic generator of calculation objects
     //check if can do without key
     function generateCalcs() {
-        calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result)
+        if (phaseCounter != 0){
+        calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result);}
         phaseCounter = 1;
         calcCounter++;
         plusMinus = false;
-            let key = `${calcCounter}`
+         //   let key = `${calcCounter}`;
             calcStorage[`${calcCounter}`] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
              calcStorage[`${calcCounter}`];
 }
@@ -243,13 +244,7 @@ function substract(num1, num2) {
 }
 
 
-
-///calc functions
-
-
-
-
-
+//div population functions
 
 
 //make a layout depending on screen size
@@ -327,7 +322,7 @@ function calcToDiv(num1, operator, num2, result){
     let divId = randomNumber(1, divs.length);
     let div = document.querySelector(`#div${divId}`);
     if (operator == "*") {operator = "x"};
-    div.textContent = num1 + " " + operator + " " num2 + " = " + result; 
+    div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
 }
 
 const divs = document.querySelectorAll(".divs");
