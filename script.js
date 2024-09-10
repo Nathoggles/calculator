@@ -1,3 +1,10 @@
+// /0
+//operator then equal wrong behav
+//change percent sign to o/o
+//check that div minwidth works on mobile
+//check display size on mob and desk, only num1 grows to big.
+//newdivs work great but check that have double classes
+
 //DOM elements
 const buttons = document.querySelectorAll("button");
 const allContainer = document.querySelector("#allContainer");
@@ -323,6 +330,7 @@ function calcToDiv(num1, operator, num2, result){
     let div = document.querySelector(`#div${divId}`);
     if (operator == "*") {operator = "x"};
     div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
+    div.setAttribute("class", "newdivs");
 }
 
 const divs = document.querySelectorAll(".divs");

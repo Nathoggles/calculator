@@ -21,6 +21,7 @@ div{
     
     #calculator {
         flex-basis: 33.3333%;
+        max-width: 33.3333%;
     }
 
     .sideContainer {
@@ -281,13 +282,21 @@ button:active{
     color: white;
     font-family: 'eraserregular';
     /*font-family: 'homemade_appleregular';*/
+    min-width: 10%;
    
 }
 
 .newdivs {
-    animation: fadeIn 3s;
-    animation-delay: 1s;
+    animation: fadeIn 2s;
+    animation-delay: 0s;
     animation-fill-mode: forwards;
+    margin: 0px;
+    margin-bottom: 0;
+    flex-shrink: auto;
+    color: white;
+    font-family: 'eraserregular';
+    /*font-family: 'homemade_appleregular';*/
+    min-width: 10%;
 }
 
 @keyframes fadeIn {
