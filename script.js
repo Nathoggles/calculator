@@ -16,7 +16,7 @@ let tempNum = {};
     // Dynamic generator of calculation objects
     //check if can do without key
     function generateCalcs() {
-        console.table(calcStorage);
+        calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result)
         phaseCounter = 1;
         calcCounter++;
         plusMinus = false;
