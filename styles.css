@@ -280,7 +280,7 @@ button:active{
     margin-bottom: 0;
     flex-shrink: auto;
     color: white;
-    font-family: 'eraserregular';
+    font-family: "Kalam";
     /*font-family: 'homemade_appleregular';*/
     min-width: 10%;
    
@@ -295,7 +295,7 @@ button:active{
     padding: 1%;
     flex-shrink: auto;
     color: white;
-    font-family: 'eraserregular';
+    font-family: "Kalam";
     /*font-family: 'homemade_appleregular';*/
     min-width: 10%;
 }
@@ -304,3 +304,22 @@ button:active{
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+
+ .kalam-light {
+    font-family: "Kalam", cursive;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .kalam-regular {
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .kalam-bold {
+    font-family: "Kalam", cursive;
+    font-weight: 700;
+    font-style: normal;
+  }

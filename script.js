@@ -22,7 +22,6 @@ let tempNum = {};
 
 
     // Dynamic generator of calculation objects
-    //check if can do without key
     function generateCalcs() {
         if (phaseCounter != 0){
         calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result);}
@@ -329,7 +328,6 @@ makeDivs();
 function calcToDiv(num1, operator, num2, result){
     let divId = randomNumber(1, divs.length);
     let div = document.querySelector(`#div${divId}`);
-    if (operator == "*") {operator = "x"};
     div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
     div.setAttribute("class", "newdivs");
 }
@@ -341,8 +339,6 @@ function createDummyCalcs(){
         let randomObj = createRandomObj();
         randomObj.result = operate(randomObj.num1, randomObj.operator, randomObj.num2);
         randomObj.result = randomObj.result.indexOf(".") > 0 ? randomObj.result.slice(0, randomObj.result.indexOf(".") + 3) : randomObj.result; 
-        if (randomObj.operator == "*") {randomObj.operator = "x"};
-        console.log(randomObj.result.indexOf("."))
         let div = document.querySelector(`#div${divId}`);
         div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;
     }}
