@@ -29,41 +29,6 @@ let tempNum = {};
              calcStorage[`${calcCounter}`];
 }
 
-//displaying results function that shrinks displayed results' font size if the number is large
-//!!don't forget to update div fontsize if result is long!!
-
-function displayResults(result) {
-    display.textContent = result;
-    tempResult = calcStorage[`${calcCounter}`].result;
-    if (result.length > 3 &&  width < 600) {
-        if (result.length > 8) {
-            display.style.fontSize = "3vh";
-        }else if (result.length > 5) {
-            display.style.fontSize = "5vh";
-        } else {
-        display.style.fontSize = "8vh";  
-    }}
-    else if (result.length > 4 && width >=600 &&  width < 800) {
-        if (result.length > 8) {
-            display.style.fontSize = "8vh";
-        } else {
-        display.style.fontSize = "10vh";
-    }}
-    else if (result.length > 5 && width >=800 && width < 1500) {
-        if (result.length > 14) {
-            display.style.fontSize = "5vh";
-        }else if (result.length > 8) {
-            display.style.fontSize = "9vh";
-        } else {
-        display.style.fontSize = "12vh"; 
-    }}
-    else if (result.length > 6 &&  width >= 1500) {
-        if (result.length > 18) {
-            display.style.fontSize = "6vh";
-        } else {
-            display.style.fontSize = "9vh";
-    }}
-}
 
 //set a temporary num each time a button is pressed depending on the current state (before an operator is selected or after), 
 //allowing to declump the input functions and reduce if/else statements based on phaseCounter. 
@@ -93,7 +58,7 @@ if phasecounter == 2, tempObject.num = 2;
 
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
-    display.style.fontSize = "18vh";
+    //display.style.fontSize = "18vh";
     setTempNum();
       if (event.target.id == "C" && (!display.textContent == "")) {
     onC();
@@ -119,7 +84,7 @@ function onC(){
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
-    display.textContent = "0";
+    displayContent("0");
     phaseCounter = 1;
 }
 
@@ -129,12 +94,12 @@ function onBack()
             calcStorage[`${calcCounter}`].num1 = "";
             calcStorage[`${calcCounter}`].num2 = "";
             calcStorage[`${calcCounter}`].operator = "";
-            display.textContent = "0";  
+            displayContent("0"); 
         } if (display.textContent == tempNum.num) {
             tempNum.num = tempNum.num.slice(0, -1);
             display.textContent = tempNum.num;
             updateNum();
-            if (tempNum.num == "") {display.textContent = "0";}
+            if (tempNum.num == "") {displayContent("0");}
         } 
 }
 
@@ -144,7 +109,7 @@ function onNumber(event){
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
     if ((tempNum.num.length <= 3 &&  width < 1100) || (tempNum.num.length <= 4 && width >= 1100 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
         tempNum.num += event.target.textContent;
-        display.textContent = tempNum.num;
+        displayContent(tempNum.num);
         updateNum();
     } 
 }
@@ -156,7 +121,7 @@ function onPlusMinus() {
     if (plusMinus){
         tempNum.num = tempNum.num.slice(1);
     }
-    display.textContent = tempNum.num 
+    displayContent(tempNum.num );
     updateNum();
     plusMinus = !plusMinus;
 }
@@ -165,16 +130,16 @@ function onOperator(event){
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.id;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
-            if (tempResult == "/0? RLY?") {calcStorage[`${calcCounter}`].num1 = 0;}
-            else calcStorage[`${calcCounter}`].num1 = tempResult;
-        }
+             calcStorage[`${calcCounter}`].num1 = tempResult;}
+        if (calcStorage[`${calcCounter}`].num1 == "") {calcStorage[`${calcCounter}`].num1 = "0";}
         phaseCounter = 2;
         plusMinus = false;
     }
     else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
         if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
+        if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-        displayResults(calcStorage[`${calcCounter}`].result);
+        displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
         calcStorage[`${calcCounter}`].operator = event.target.id;
@@ -190,13 +155,13 @@ function onPercent(event){
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
-         displayResults(calcStorage[`${calcCounter}`].result);
+         displayContent(calcStorage[`${calcCounter}`].result);
          calcStorage[`${calcCounter}`].num1 += event.target.id;
          generateCalcs();
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
-        displayResults(calcStorage[`${calcCounter}`].result);
+        displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
     }
 }
@@ -204,9 +169,19 @@ function onPercent(event){
 function onEqual(){
     if (tempNum.num == "") {return};
     if (tempNum.num == ".") {return;}
+    if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-    displayResults(calcStorage[`${calcCounter}`].result);
+    displayContent(calcStorage[`${calcCounter}`].result);
     generateCalcs();
+}
+
+function divZero(){
+        calcStorage[`${calcCounter}`].num1 = "";
+        calcStorage[`${calcCounter}`].num2 = "";
+        calcStorage[`${calcCounter}`].operator = "";
+        phaseCounter = 1;
+        displayContent("/0? RLY?"); 
+        
 }
 
 
@@ -216,13 +191,7 @@ function onEqual(){
 
 function operate(num1, operator, num2) {
 
-    if ((operator == "/" && num2 == 0)) {
-        calcStorage[`${calcCounter}`].num1 = "";
-            calcStorage[`${calcCounter}`].num2 = "";
-            calcStorage[`${calcCounter}`].operator = "";
-            calcStorage[`${calcCounter}`].result = "0";
-            return display.textContent = "/0? RLY?";  
-    } if (operator == "*"){return multiply(num1, num2);}
+    if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
     if (operator == "-"){return substract(num1, num2);}
@@ -253,6 +222,43 @@ function sliceAfterDot(result) {
     result = result.toString();
     result = result.indexOf(".") > 0 ? result.slice(0, result.indexOf(".") + 3) : result; 
     return result;
+}
+
+
+//displaying results function that shrinks displayed results' font size if the number is large
+
+function displayContent(content) {
+
+    display.textContent = content;
+    tempResult = calcStorage[`${calcCounter}`].result;
+    if (content.length > 3 &&  width < 600) {
+        if (content.length > 8) {
+            display.style.fontSize = "3vh";
+        }else if (content.length > 5) {
+            display.style.fontSize = "5vh";
+        } else {
+        display.style.fontSize = "8vh";  
+    }}
+    else if (content.length > 4 && width >=600 &&  width < 800) {
+        if (content.length > 8) {
+            display.style.fontSize = "8vh";
+        } else {
+        display.style.fontSize = "10vh";
+    }}
+    else if (content.length > 5 && width >=800 && width < 1500) {
+        if (content.length > 14) {
+            display.style.fontSize = "5vh";
+        }else if (content.length > 8) {
+            display.style.fontSize = "9vh";
+        } else {
+        display.style.fontSize = "12vh"; 
+    }}
+    else if (content.length > 6 &&  width >= 1500) {
+        if (content.length > 18 && width >= 1500) {
+            display.style.fontSize = "6vh";
+        } else {
+            display.style.fontSize = "9vh";
+    }}
 }
 
 //div population functions
