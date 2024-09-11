@@ -287,11 +287,12 @@ button:active{
 }
 
 .newdivs {
-    animation: fadeIn 2s;
+    animation: fadeIn 4s;
     animation-delay: 0s;
     animation-fill-mode: forwards;
     margin: 0px;
     margin-bottom: 0;
+    padding: 1%;
     flex-shrink: auto;
     color: white;
     font-family: 'eraserregular';

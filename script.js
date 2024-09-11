@@ -4,6 +4,7 @@
 //check that div minwidth works on mobile
 //check display size on mob and desk, only num1 grows to big.
 //newdivs work great but check that have double classes
+//two signs after . no longer working
 
 //DOM elements
 const buttons = document.querySelectorAll("button");
@@ -227,29 +228,29 @@ function operate(num1, operator, num2) {
 
 function multiply(num1, num2) {
     let result = parseFloat(num1) * parseFloat(num2);
-    //add move result string into operate function and add check that trunct everything after .0;
-    let resultString = result.toString();//.slice(0,5);;
-    return resultString;
+    return sliceAfterDot(result);
 }
 
 function divide(num1, num2) {
     let result = parseFloat(num1) / parseFloat(num2);
-    let resultString = result.toString();//.slice(0,5);;
-    return resultString;
+    return sliceAfterDot(result);
 }
 
 function summ(num1, num2) {
     let result = parseFloat(num1) + parseFloat(num2);
-    let resultString = result.toString();//.slice(0,5);;
-    return resultString;
+    return sliceAfterDot(result);
 }
 
 function substract(num1, num2) {
     let result = parseFloat(num1) - parseFloat(num2);
-    let resultString = result.toString();//.slice(0,5);;
-    return resultString;
+    return sliceAfterDot(result);
 }
 
+function sliceAfterDot(result) {
+    result = result.toString();
+    result = result.indexOf(".") > 0 ? result.slice(0, result.indexOf(".") + 3) : result; 
+    return result;
+}
 
 //div population functions
 
