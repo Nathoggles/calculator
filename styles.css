@@ -1,4 +1,20 @@
-
+.kalam-light {
+    font-family: "Kalam", cursive;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .kalam-regular {
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .kalam-bold {
+    font-family: "Kalam", cursive;
+    font-weight: 700;
+    font-style: normal;
+  }
 
 body {
     font-family: 'Roboto', sans-serif; 
@@ -275,13 +291,12 @@ button:active{
     color: white;
 }
 .divs {
-   /* border: 1px white solid;*/ /*might try to remove border box*/
     margin: 0px;
     margin-bottom: 0;
+    padding: 1%;
     flex-shrink: auto;
     color: white;
     font-family: "Kalam";
-    /*font-family: 'homemade_appleregular';*/
     min-width: 10%;
    
 }
@@ -296,7 +311,6 @@ button:active{
     flex-shrink: auto;
     color: white;
     font-family: "Kalam";
-    /*font-family: 'homemade_appleregular';*/
     min-width: 10%;
 }
 
@@ -306,20 +320,3 @@ button:active{
 }
 
 
- .kalam-light {
-    font-family: "Kalam", cursive;
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  .kalam-regular {
-    font-family: "Kalam", cursive;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  .kalam-bold {
-    font-family: "Kalam", cursive;
-    font-weight: 700;
-    font-style: normal;
-  }

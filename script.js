@@ -1,10 +1,6 @@
-// /0
-//operator then equal wrong behav
-//change percent sign to o/o
 //check that div minwidth works on mobile
 //check display size on mob and desk, only num1 grows to big.
-//newdivs work great but check that have double classes
-//two signs after . no longer working
+
 
 //DOM elements
 const buttons = document.querySelectorAll("button");
@@ -88,11 +84,9 @@ generateCalcs();
 
 
 
-
-
 /*
-if phasecounter 1 = tempObject.num = num1
-if 2 = 2;
+if phasecounter == 1, tempObject.num = num1
+if phasecounter == 2, tempObject.num = 2;
 
 */
 //Global button click listener
@@ -171,7 +165,8 @@ function onOperator(event){
     if (phaseCounter == 1) {
         calcStorage[`${calcCounter}`].operator = event.target.id;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
-            calcStorage[`${calcCounter}`].num1 = tempResult;
+            if (tempResult == "/0? RLY?") {calcStorage[`${calcCounter}`].num1 = 0;}
+            else calcStorage[`${calcCounter}`].num1 = tempResult;
         }
         phaseCounter = 2;
         plusMinus = false;
@@ -190,6 +185,8 @@ function onOperator(event){
 
 function onPercent(event){
     //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
+    if (tempNum.num == ".") {return;}
+    if (tempNum.num == "") {return};
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
@@ -205,6 +202,8 @@ function onPercent(event){
 }
 
 function onEqual(){
+    if (tempNum.num == "") {return};
+    if (tempNum.num == ".") {return;}
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     displayResults(calcStorage[`${calcCounter}`].result);
     generateCalcs();
@@ -217,8 +216,13 @@ function onEqual(){
 
 function operate(num1, operator, num2) {
 
-    // /0 "/0? RLY?" message goes here
-    if (operator == "*"){return multiply(num1, num2);}
+    if ((operator == "/" && num2 == 0)) {
+        calcStorage[`${calcCounter}`].num1 = "";
+            calcStorage[`${calcCounter}`].num2 = "";
+            calcStorage[`${calcCounter}`].operator = "";
+            calcStorage[`${calcCounter}`].result = "0";
+            return display.textContent = "/0? RLY?";  
+    } if (operator == "*"){return multiply(num1, num2);}
     if (operator == "/"){return divide(num1, num2);}
     if (operator == "+"){return summ(num1, num2);}
     if (operator == "-"){return substract(num1, num2);}
