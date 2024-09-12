@@ -59,8 +59,17 @@ div{
     .sideContainer {
         flex-basis: 20%;
     }
+    .pseudoop{
+        font-size: 3vh;
+    }
+    .divs {
+        box-sizing: border-box;
+        padding: 1%;
+        font-weight: 600;
+        font-size: 2vh;
+    }
 }
-
+/*
 @media (orientation:portrait){
     #calculator {
         flex-basis: 60%;
@@ -75,12 +84,12 @@ div{
         font-size: 2vh;
     }
 
-    .pseudoop{
+   /.pseudoop{
         font-size: 3vh;
     }
 
 }
-
+*/
 #allContainer {
     display: flex;
     justify-content:flex-start; 

@@ -1,5 +1,6 @@
 //check that div minwidth works on mobile
 //check display size on mob and desk, only num1 grows to big.
+//if tempNum ends with ., trunct .
 
 
 //DOM elements
@@ -107,11 +108,7 @@ function onNumber(event){
     //avoid two dots in one string
     if ((event.target.id == "dot" && tempNum.num.includes(".")) ){ return;}
    //make sure the input stays below the calculator display width while also auto-trunctating possible long decimals without the need for rounding
-    if ((tempNum.num.length <= 3 &&  width < 1100) || (tempNum.num.length <= 4 && width >= 1100 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
-        tempNum.num += event.target.textContent;
-        displayContent(tempNum.num);
-        updateNum();
-    } 
+   updateDisplayByWidth(event);
 }
 
 function onPlusMinus() {
@@ -228,7 +225,7 @@ function sliceAfterDot(result) {
 //displaying results function that shrinks displayed results' font size if the number is large
 
 function displayContent(content) {
-
+console.log(width);
     display.textContent = content;
     tempResult = calcStorage[`${calcCounter}`].result;
     if (content.length > 3 &&  width < 600) {
@@ -245,7 +242,14 @@ function displayContent(content) {
         } else {
         display.style.fontSize = "10vh";
     }}
-    else if (content.length > 5 && width >=800 && width < 1500) {
+    else if (content.length > 5 && width >=800 && width < 1200) {
+        if (content.length > 9) {
+            display.style.fontSize = "5vh";
+        }else if (content.length > 7) {
+            display.style.fontSize = "9vh";
+        } else {
+        display.style.fontSize = "12vh"; 
+    }} else if (content.length > 5 && width >=1200 && width < 1500) {
         if (content.length > 14) {
             display.style.fontSize = "5vh";
         }else if (content.length > 8) {
@@ -261,9 +265,35 @@ function displayContent(content) {
     }}
 }
 
-//div population functions
+//updating the calculator's "display" to display and accept numbers inputs depending on device width
+function updateDisplayByWidth(event) {
+    if ((tempNum.num.length <= 3 &&  width < 800) || (tempNum.num.length <= 3 &&  width >= 800 && width < 1200) 
+|| (tempNum.num.length <= 5 && width >= 1200 && width < 1500) || (tempNum.num.length <= 6 &&  width >= 1500)) {
+    tempNum.num += event.target.textContent;
+    display.style.fontSize = "18vh";
+    displayContent(tempNum.num);
+    updateNum();
+}}
+
+let smallScreenDivs = 2; 
+
+//for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on vey small mobile screens. 
+function calcToDiv(num1, operator, num2, result){
+    if ((width < 600 && smallScreenDivs == 5)) {
+        smallScreenDivs = 0;
+        divs.forEach((div) => {
+            div.textContent = "";
+        });
+    }
+    let divId = randomNumber(1, divs.length);
+    let div = document.querySelector(`#div${divId}`);
+    div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
+    div.setAttribute("class", "newdivs");
+    smallScreenDivs++;
+}
 
 
+//on site initialization: div population functions
 //make a layout depending on screen size
 
 let id = 0;
@@ -304,6 +334,8 @@ function makeDivs() {
     populateRow(rC, rB, rH);
 }
 
+
+
 function populateRow(rowCount,rowBasis, rowHeight) {
     for (let i = 1; i <= rowCount; i++) {
         const div = document.createElement("div");
@@ -335,23 +367,25 @@ function populateSideContainer(sideCount, sideBasis, sideHeight){
 getPageData();
 makeDivs();
 
-function calcToDiv(num1, operator, num2, result){
-    let divId = randomNumber(1, divs.length);
-    let div = document.querySelector(`#div${divId}`);
-    div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
-    div.setAttribute("class", "newdivs");
-}
-
+//seed some dummy divs to make the design graspable to the user
 const divs = document.querySelectorAll(".divs");
 function createDummyCalcs(){
+    if (width < 600) {
+        for (i = 0; i < 2; i++){
+            assembleDiv();
+        }
+    } else {
     for (i = 0; i < 5; i++){
-        let divId = randomNumber(1, divs.length);
+        assembleDiv();
+    }}}
+
+function assembleDiv(){
+    let divId = randomNumber(1, divs.length);
         let randomObj = createRandomObj();
         randomObj.result = operate(randomObj.num1, randomObj.operator, randomObj.num2);
         randomObj.result = randomObj.result.indexOf(".") > 0 ? randomObj.result.slice(0, randomObj.result.indexOf(".") + 3) : randomObj.result; 
         let div = document.querySelector(`#div${divId}`);
-        div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;
-    }}
+        div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;}
 
 function createRandomObj(){
     const randomObj = {};
@@ -377,4 +411,8 @@ function randomNumber(min, max) {
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
   }
+
+
+
+
 
