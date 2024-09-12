@@ -279,7 +279,7 @@ let smallScreenDivs = 2;
 
 //for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on vey small mobile screens. 
 function calcToDiv(num1, operator, num2, result){
-    if ((width < 600 && smallScreenDivs == 5)) {
+    if ((width < 800 && smallScreenDivs == 5)) {
         smallScreenDivs = 0;
         divs.forEach((div) => {
             div.textContent = "";
@@ -300,7 +300,7 @@ let id = 0;
 
 const pageData = {};
 function getPageData() {
-    if (width < 600) {
+    if (width < 1000) {
         pageData.rowCount = 5;
         pageData.rowBasis = `${100 / 5}%`;
         pageData.rowHeight = `${100 / 10}%`;
@@ -370,7 +370,7 @@ makeDivs();
 //seed some dummy divs to make the design graspable to the user
 const divs = document.querySelectorAll(".divs");
 function createDummyCalcs(){
-    if (width < 600) {
+    if (width < 1000) {
         for (i = 0; i < 2; i++){
             assembleDiv();
         }
