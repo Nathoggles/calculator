@@ -218,6 +218,7 @@ div{
     color: black solid; 
     justify-content: right;
     align-items: center;
+    padding-bottom: 2%;
     font-size: 18vh; 
     font-weight: 400;    
     text-shadow: -1px -1px rgba(0,0,0,0.2);           

@@ -1,6 +1,7 @@
 //check that div minwidth works on mobile
 //check display size on mob and desk, only num1 grows to big.
 //if tempNum ends with ., trunct .
+//if can easily, pull up display on large screen, if not let as is
 
 
 //DOM elements
@@ -217,7 +218,7 @@ function substract(num1, num2) {
 
 function sliceAfterDot(result) {
     result = result.toString();
-    result = result.indexOf(".") > 0 ? result.slice(0, result.indexOf(".") + 3) : result; 
+    result = (result.indexOf(".") > 0 && result.indexOf("e") < 0) ? result.slice(0, result.indexOf(".") + 3) : result; 
     return result;
 }
 
@@ -257,8 +258,14 @@ console.log(width);
         } else {
         display.style.fontSize = "12vh"; 
     }}
-    else if (content.length > 6 &&  width >= 1500) {
-        if (content.length > 18 && width >= 1500) {
+    else if (content.length > 6 &&  width >= 1500 && width < 1900) {
+        if (content.length > 18 && width >= 1500 && width < 1900) {
+            display.style.fontSize = "6vh";
+        } else {
+            display.style.fontSize = "9vh";
+    }}
+    else if (content.length > 8 &&  width >= 1900) {
+        if (content.length > 18 && width >= 1900) {
             display.style.fontSize = "6vh";
         } else {
             display.style.fontSize = "9vh";
