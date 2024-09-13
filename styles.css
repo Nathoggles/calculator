@@ -49,10 +49,12 @@ div{
         font-weight: 600;
         font-size: 2.5vh;
     }
+    #back {font-size: 3.5vh;
+    }
     
 }
 
-@media (max-device-width: 999px) {
+@media (max-device-width: 999px) or (orientation: portrait) {
     #calculator {
         flex-basis: 50%;
         min-width: 50%;
@@ -61,6 +63,10 @@ div{
         flex-basis: 25%;
     }
     .pseudoop{
+        font-size: 3vh;
+    }
+
+    #back {
         font-size: 3vh;
     }
     .divs {
@@ -93,6 +99,8 @@ div{
     }
 }
 */
+
+
 #allContainer {
     display: flex;
     justify-content:flex-start; 
@@ -295,7 +303,6 @@ button:active{
 }
 
 #back {
-    font-size: 3.5vh;
     font-weight: 550;
 
 }

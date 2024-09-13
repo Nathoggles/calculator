@@ -230,23 +230,29 @@ console.log(width);
     display.textContent = content;
     tempResult = calcStorage[`${calcCounter}`].result;
     if (content.length > 3 &&  width < 600) {
-        if (content.length > 8) {
+        if (content.length > 15) {
+            display.style.fontSize = "2vh";
+        }else if (content.length > 10) {
             display.style.fontSize = "3vh";
-        }else if (content.length > 5) {
+        }else if (content.length > 6) {
             display.style.fontSize = "5vh";
         } else {
         display.style.fontSize = "8vh";  
     }}
     else if (content.length > 4 && width >=600 &&  width < 800) {
         if (content.length > 8) {
+            display.style.fontSize = "3vh";
+        }else if (content.length > 6) {
             display.style.fontSize = "8vh";
         } else {
         display.style.fontSize = "10vh";
     }}
-    else if (content.length > 5 && width >=800 && width < 1200) {
-        if (content.length > 9) {
-            display.style.fontSize = "5vh";
+    else if (content.length > 4 && width >=800 && width < 1200) {
+        if (content.length > 8) {
+            display.style.fontSize = "3vh";
         }else if (content.length > 7) {
+            display.style.fontSize = "8vh";
+        }else if (content.length > 5) {
             display.style.fontSize = "9vh";
         } else {
         display.style.fontSize = "12vh"; 
@@ -274,8 +280,7 @@ console.log(width);
 
 //updating the calculator's "display" to display and accept numbers inputs depending on device width
 function updateDisplayByWidth(event) {
-    if ((tempNum.num.length <= 3 &&  width < 800) || (tempNum.num.length <= 3 &&  width >= 800 && width < 1200) 
-|| (tempNum.num.length <= 7 && width >= 1200 && width < 1600) || (tempNum.num.length <= 7 &&  width >= 1600)) {
+    if (tempNum.num.length <= 7) {
     tempNum.num += event.target.textContent;
     display.style.fontSize = "18vh";
     displayContent(tempNum.num);
