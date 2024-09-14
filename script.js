@@ -1,9 +1,3 @@
-//check that div minwidth works on mobile
-//check display size on mob and desk, only num1 grows to big.
-//if tempNum ends with ., trunct .
-//if can easily, pull up display on large screen, if not let as is
-//try to play with div widht on mobile
-
 //DOM elements
 const buttons = document.querySelectorAll("button");
 const allContainer = document.querySelector("#allContainer");
@@ -12,6 +6,8 @@ const width = window.innerWidth;
 
 // Object to store generated objects
 const calcStorage = {};
+
+//Counter variables, for assembling a calculation object and for its parts for a next calculation object where needed
 let calcCounter = 0;
 let phaseCounter = 0;
 let plusMinus = false;
@@ -19,16 +15,15 @@ let tempResult;
 let tempNum = {};
 
 
-    // Dynamic generator of calculation objects
-    function generateCalcs() {
-        if (phaseCounter != 0){
-        calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result);}
-        phaseCounter = 1;
-        calcCounter++;
-        plusMinus = false;
-         //   let key = `${calcCounter}`;
-            calcStorage[`${calcCounter}`] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
-             calcStorage[`${calcCounter}`];
+// Dynamic generator of calculation objects
+function generateCalcs() {
+    if (phaseCounter != 0){
+    calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result);}
+    phaseCounter = 1;
+    calcCounter++;
+    plusMinus = false;
+        calcStorage[`${calcCounter}`] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
+            calcStorage[`${calcCounter}`];
 }
 
 
@@ -44,23 +39,16 @@ function updateNum() {
 }
 
 
-//working on input
 
 generateCalcs();
 
 
-
-
-/*
-if phasecounter == 1, tempObject.num = num1
-if phasecounter == 2, tempObject.num = 2;
-
-*/
 //Global button click listener
+    //if phasecounter == 1, tempObject.num = num1
+    //if phasecounter == 2, tempObject.num = 2;
 
 buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
-    //display.style.fontSize = "18vh";
     setTempNum();
       if (event.target.id == "C" && (!display.textContent == "")) {
     onC();
@@ -68,15 +56,15 @@ buttons.forEach((button) =>
     onBack();
     } if (event.target.classList.contains("calc")) {
     onNumber(event);
-} if (event.target.id == "+-") {
-    onPlusMinus();
-} if ((event.target.classList.contains("operator"))){
-    onOperator(event);
-} if (event.target.id == "%") { 
-    onPercent(event);
-}if (event.target.id == "equal" && phaseCounter == 2) {
-    onEqual();
-}
+    } if (event.target.id == "+-") {
+        onPlusMinus();
+    } if ((event.target.classList.contains("operator"))){
+        onOperator(event);
+    } if (event.target.id == "%") { 
+        onPercent(event);
+    }if (event.target.id == "equal" && phaseCounter == 2) {
+        onEqual();
+    }
 }));
 
 //Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[`${calcCounter}`]) 
@@ -86,23 +74,25 @@ function onC(){
     calcStorage[`${calcCounter}`].num1 = "";
     calcStorage[`${calcCounter}`].num2 = "";
     calcStorage[`${calcCounter}`].operator = "";
+    display.style.fontSize = "18vh";
     displayContent("0");
     phaseCounter = 1;
 }
 
 function onBack()
     { //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
-        if ((tempResult == display.textContent) || (tempResult == tempNum.num)) {
-            calcStorage[`${calcCounter}`].num1 = "";
-            calcStorage[`${calcCounter}`].num2 = "";
-            calcStorage[`${calcCounter}`].operator = "";
-            displayContent("0"); 
-        } if (display.textContent == tempNum.num) {
-            tempNum.num = tempNum.num.slice(0, -1);
-            display.textContent = tempNum.num;
-            updateNum();
-            if (tempNum.num == "") {displayContent("0");}
-        } 
+    if ((tempResult == display.textContent) || (tempResult == tempNum.num)) {
+        calcStorage[`${calcCounter}`].num1 = "";
+        calcStorage[`${calcCounter}`].num2 = "";
+        calcStorage[`${calcCounter}`].operator = "";
+        display.style.fontSize = "18vh";
+        displayContent("0"); 
+    } if (display.textContent == tempNum.num) {
+        tempNum.num = tempNum.num.slice(0, -1);
+        display.textContent = tempNum.num;
+        updateNum();
+        if (tempNum.num == "") {displayContent("0");}
+    } 
 }
 
 function onNumber(event){
@@ -115,8 +105,7 @@ function onNumber(event){
 function onPlusMinus() {
     if (!plusMinus){
         tempNum.num = "-" + tempNum.num;
-     }
-    if (plusMinus){
+     }if (plusMinus){
         tempNum.num = tempNum.num.slice(1);
     }
     displayContent(tempNum.num );
@@ -142,7 +131,6 @@ function onOperator(event){
         calcStorage[`${calcCounter}`].num1 = tempResult;
         calcStorage[`${calcCounter}`].operator = event.target.id;
         phaseCounter = 2;
-        console.table(calcStorage[`${calcCounter}`]);
     }
 }
 
@@ -182,10 +170,7 @@ function divZero(){
         
 }
 
-
-
 //calculation functions
-
 
 function operate(num1, operator, num2) {
 
@@ -194,7 +179,6 @@ function operate(num1, operator, num2) {
     if (operator == "+"){return summ(num1, num2);}
     if (operator == "-"){return substract(num1, num2);}
 }
-
 
 function multiply(num1, num2) {
     let result = parseFloat(num1) * parseFloat(num2);
@@ -222,11 +206,9 @@ function sliceAfterDot(result) {
     return result;
 }
 
-
-//displaying results function that shrinks displayed results' font size if the number is large
+//displaying results function to shrink displayed depending on screen size to fit "display". 
 
 function displayContent(content) {
-console.log(width);
     display.textContent = content;
     tempResult = calcStorage[`${calcCounter}`].result;
     if (content.length > 3 &&  width < 600) {
@@ -258,8 +240,8 @@ console.log(width);
         display.style.fontSize = "12vh"; 
     }} else if (content.length > 5 && width >=1200 && width < 1600) {
         if (content.length > 14) {
-            display.style.fontSize = "4.75vh";
-        }else if (content.length > 8) {
+            display.style.fontSize = "4.25vh";
+        }else if (content.length > 7) {
             display.style.fontSize = "9vh";
         } else {
         display.style.fontSize = "12vh"; 
@@ -278,7 +260,7 @@ console.log(width);
     }}
 }
 
-//updating the calculator's "display" to display and accept numbers inputs depending on device width
+//updating the calculator's "display" to update input font size on new input and limit input lenghth
 function updateDisplayByWidth(event) {
     if (tempNum.num.length <= 7) {
     tempNum.num += event.target.textContent;
@@ -289,7 +271,7 @@ function updateDisplayByWidth(event) {
 
 let smallScreenDivs = 2; 
 
-//for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on vey small mobile screens. 
+//for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on small mobile screens. 
 function calcToDiv(num1, operator, num2, result){
     if ((width < 800 && smallScreenDivs == 5)) {
         smallScreenDivs = 0;
@@ -303,7 +285,6 @@ function calcToDiv(num1, operator, num2, result){
     div.setAttribute("class", "newdivs");
     smallScreenDivs++;
 }
-
 
 //on site initialization: div population functions
 //make a layout depending on screen size
@@ -330,7 +311,6 @@ function getPageData() {
 }
 };
 
-
 function makeDivs() {
     const rC = pageData.rowCount;
     const rB = pageData.rowBasis;
@@ -345,7 +325,6 @@ function makeDivs() {
     populateSideContainer(sC, sB, sH);
     populateRow(rC, rB, rH);
 }
-
 
 
 function populateRow(rowCount,rowBasis, rowHeight) {
@@ -416,15 +395,8 @@ function getRandomOperator(){
 }
 createDummyCalcs();
 
-
-
 function randomNumber(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
   }
-
-
-
-
-
