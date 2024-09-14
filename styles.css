@@ -48,7 +48,13 @@ div{
         padding: 3%;
         font-weight: 600;
         font-size: 2.5vh;
+        min-width: 10%;
     }
+    
+    .newdivs {
+        min-width: 10%;
+    }
+
     #back {font-size: 3.5vh;
     }
     
@@ -56,11 +62,12 @@ div{
 
 @media (max-device-width: 999px) or (orientation: portrait) {
     #calculator {
-        flex-basis: 50%;
-        min-width: 50%;
+        flex-basis: 70%;
+        min-width: 70%;
     }
     .sideContainer {
-        flex-basis: 25%;
+        flex-basis: 15%;
+        max-width: 15%;
     }
     .pseudoop{
         font-size: 3vh;
@@ -73,10 +80,13 @@ div{
         box-sizing: border-box;
         padding: 1%;
         font-weight: 600;
-        font-size: 2vh;
+        font-size: 1vh;
+        max-width: 10vh;
+
     }
     .newdivs {
-        font-size: 2vh;
+        font-size: 1vh;
+
     }
 }
 /*
@@ -317,7 +327,6 @@ button:active{
     flex-shrink: auto;
     color: white;
     font-family: "Kalam";
-    min-width: 10%;
    
 }
 
@@ -331,7 +340,7 @@ button:active{
     flex-shrink: auto;
     color: white;
     font-family: "Kalam";
-    min-width: 10%;
+
 }
 
 @keyframes fadeIn {

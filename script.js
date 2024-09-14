@@ -2,7 +2,7 @@
 //check display size on mob and desk, only num1 grows to big.
 //if tempNum ends with ., trunct .
 //if can easily, pull up display on large screen, if not let as is
-
+//try to play with div widht on mobile
 
 //DOM elements
 const buttons = document.querySelectorAll("button");
@@ -291,7 +291,7 @@ let smallScreenDivs = 2;
 
 //for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on vey small mobile screens. 
 function calcToDiv(num1, operator, num2, result){
-    if ((width < 800 && smallScreenDivs == 5)) {
+    if ((width < 800 && smallScreenDivs == 4)) {
         smallScreenDivs = 0;
         divs.forEach((div) => {
             div.textContent = "";
@@ -383,9 +383,7 @@ makeDivs();
 const divs = document.querySelectorAll(".divs");
 function createDummyCalcs(){
     if (width < 1000) {
-        for (i = 0; i < 2; i++){
             assembleDiv();
-        }
     } else {
     for (i = 0; i < 5; i++){
         assembleDiv();
