@@ -252,7 +252,7 @@ function displayContent(content) {
         } else {
             display.style.fontSize = "9vh";
     }}
-    else if (content.length > 8 &&  width >= 1900) {
+    else if (content.length > 7 &&  width >= 1900) {
         if (content.length > 15 && width >= 1900) {
             display.style.fontSize = "6vh";
         } else {
