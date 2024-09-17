@@ -137,7 +137,8 @@ function onOperator(event){
 function onPercent(event){
     //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     if (tempNum.num == ".") {return;}
-    if (tempNum.num == "") {return};
+    if (tempNum.num == "") {return;}
+    if (tempNum.num == "-") {return;}
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
