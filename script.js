@@ -157,6 +157,7 @@ function onPercent(event){
 function onEqual(){
     if (tempNum.num == "") {return;}
     if (tempNum.num == ".") {return;}
+    if (tempNum.num == "-") {return;}
     if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     displayContent(calcStorage[`${calcCounter}`].result);
