@@ -124,6 +124,7 @@ function onOperator(event){
     }
     else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
         if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
+        if (calcStorage[`${calcCounter}`].num2 == "-") {return;}
         if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayContent(calcStorage[`${calcCounter}`].result);
