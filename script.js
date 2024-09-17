@@ -118,7 +118,7 @@ function onOperator(event){
         calcStorage[`${calcCounter}`].operator = event.target.id;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
              calcStorage[`${calcCounter}`].num1 = tempResult;}
-        if (calcStorage[`${calcCounter}`].num1 == "") {calcStorage[`${calcCounter}`].num1 = "0";}
+        if (calcStorage[`${calcCounter}`].num1 == "" || calcStorage[`${calcCounter}`].num1 == "-") {calcStorage[`${calcCounter}`].num1 = "0";}
         phaseCounter = 2;
         plusMinus = false;
     }
@@ -153,7 +153,7 @@ function onPercent(event){
 }
 
 function onEqual(){
-    if (tempNum.num == "") {return};
+    if (tempNum.num == "") {return;}
     if (tempNum.num == ".") {return;}
     if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
