@@ -15,6 +15,7 @@ const addButton = document.querySelector("#plus");
 const equalButton = document.querySelector("#equal");
 const decimalButton = document.querySelector("#dot");
 const percentButton = document.querySelector("#percent");
+/*
 const oneButton = document.querySelector("#one");
 const twoButton = document.querySelector("#two");
 const threeButton = document.querySelector("#three");
@@ -24,7 +25,7 @@ const sixButton = document.querySelector("#six");
 const sevenButton = document.querySelector("#seven");
 const eightButton = document.querySelector("#eight");
 const nineButton = document.querySelector("#nine");
-const zeroButton = document.querySelector("#zero");
+const zeroButton = document.querySelector("#zero");*/
 
 const calcButtons = document.querySelectorAll(".calc");
 const operatorButtons = document.querySelectorAll(".operator");
@@ -107,7 +108,7 @@ operatorButtons.forEach((button) =>
 
 equalButton.addEventListener("click", (event) => {
     if (phaseCounter == 2) {
-        onEqual();
+        onEqual(event);
     }});
 
    /* buttons.forEach((button) => 
@@ -178,7 +179,7 @@ function onPlusMinus() {
 
 function onOperator(event){
     if (phaseCounter == 1) {
-        calcStorage[`${calcCounter}`].operator = event.target.id;
+        calcStorage[`${calcCounter}`].operator = event.target.textContent;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
              calcStorage[`${calcCounter}`].num1 = tempResult;}
         if (calcStorage[`${calcCounter}`].num1 == "" || calcStorage[`${calcCounter}`].num1 == "-") {calcStorage[`${calcCounter}`].num1 = "0";}
