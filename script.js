@@ -7,24 +7,27 @@ const width = window.innerWidth;
 
 const cButton = document.querySelector("#C");
 const backButton = document.querySelector("#back");
-const plusMinusButton = document.querySelector("#+-");
-const divideButton = document.querySelector("#/");
-const multiplyButton = document.querySelector("#*");
-const minusButton = document.querySelector("#-");
-const addButton = document.querySelector("#+");
-const equalButton = document.querySelector("#=");
-const decimalButton = document.querySelector("#.");
-const percentButton = document.querySelector("#%");
-const oneButton = document.querySelector("#1");
-const twoButton = document.querySelector("#2");
-const threeButton = document.querySelector("#3");
-const fourButton = document.querySelector("#4");
-const fiveButton = document.querySelector("#5");
-const sixButton = document.querySelector("#6");
-const sevenButton = document.querySelector("#7");
-const eightButton = document.querySelector("#8");
-const nineButton = document.querySelector("#9");
-const zeroButton = document.querySelector("#0");
+const plusMinusButton = document.querySelector("#plusMinus");
+const divideButton = document.querySelector("#divide");
+const multiplyButton = document.querySelector("#multiply");
+const minusButton = document.querySelector("#minus");
+const addButton = document.querySelector("#plus");
+const equalButton = document.querySelector("#equal");
+const decimalButton = document.querySelector("#dot");
+const percentButton = document.querySelector("#percent");
+const oneButton = document.querySelector("#one");
+const twoButton = document.querySelector("#two");
+const threeButton = document.querySelector("#three");
+const fourButton = document.querySelector("#four");
+const fiveButton = document.querySelector("#five");
+const sixButton = document.querySelector("#six");
+const sevenButton = document.querySelector("#seven");
+const eightButton = document.querySelector("#eight");
+const nineButton = document.querySelector("#nine");
+const zeroButton = document.querySelector("#zero");
+
+const calcButtons = document.querySelectorAll(".calc");
+const operatorButtons = document.querySelectorAll(".operator");
 
 
 // Object to store generated objects
@@ -70,16 +73,44 @@ generateCalcs();
     //if phasecounter == 1, tempObject.num = num1
     //if phasecounter == 2, tempObject.num = 2;
 
-    buttons.forEach((button) => 
-        button.addEventListener("click", (event) => {
-        setTempNum();}));
+buttons.forEach((button) => 
+    button.addEventListener("click", () => {
+    setTempNum();
+}));
 
-cButton.addEventListener("click", (event) => {
+cButton.addEventListener("click", () => {
 if (display.textContent != "") {
     onC();
 }});
 
-    buttons.forEach((button) => 
+backButton.addEventListener("click", () => {
+    onBack();
+});
+
+plusMinusButton.addEventListener("click", (event) => {
+    onPlusMinus(event);
+});
+
+percentButton.addEventListener("click", (event) => {
+    onPercent(event);
+});
+
+calcButtons.forEach((button) => 
+    button.addEventListener("click", (event) => {
+        onNumber(event);
+}));
+
+operatorButtons.forEach((button) => 
+    button.addEventListener("click", (event) => {
+        onOperator(event);
+}));
+
+equalButton.addEventListener("click", (event) => {
+    if (phaseCounter == 2) {
+        onEqual();
+    }});
+
+   /* buttons.forEach((button) => 
     button.addEventListener("click", (event) => {
     setTempNum();
       if (event.target.id == "C" && (!display.textContent == "")) {
@@ -97,7 +128,7 @@ if (display.textContent != "") {
     }if (event.target.id == "equal" && phaseCounter == 2) {
         onEqual();
     }
-}));
+}));*/
 
 //Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[`${calcCounter}`]) 
 //and fill its keys with corresponding input

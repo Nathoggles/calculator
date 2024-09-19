@@ -9,4 +9,4 @@ Try it out! Your calculations await to be recorded!
 
 --------------
 
-I want to particularly thank u/andmig205 and u/tapgiles for reviewing the code and offering me invaluable suggestions on how to improve my coding clarity and simplicity. 
+I want to particularly thank u/andmig205 and u/TAPgiles for reviewing the code and offering me invaluable suggestions on how to improve my coding clarity and simplicity. 
