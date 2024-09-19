@@ -8,25 +8,9 @@ const width = window.innerWidth;
 const cButton = document.querySelector("#C");
 const backButton = document.querySelector("#back");
 const plusMinusButton = document.querySelector("#plusMinus");
-const divideButton = document.querySelector("#divide");
-const multiplyButton = document.querySelector("#multiply");
-const minusButton = document.querySelector("#minus");
-const addButton = document.querySelector("#plus");
 const equalButton = document.querySelector("#equal");
 const decimalButton = document.querySelector("#dot");
 const percentButton = document.querySelector("#percent");
-/*
-const oneButton = document.querySelector("#one");
-const twoButton = document.querySelector("#two");
-const threeButton = document.querySelector("#three");
-const fourButton = document.querySelector("#four");
-const fiveButton = document.querySelector("#five");
-const sixButton = document.querySelector("#six");
-const sevenButton = document.querySelector("#seven");
-const eightButton = document.querySelector("#eight");
-const nineButton = document.querySelector("#nine");
-const zeroButton = document.querySelector("#zero");*/
-
 const calcButtons = document.querySelectorAll(".calc");
 const operatorButtons = document.querySelectorAll(".operator");
 
@@ -111,25 +95,6 @@ equalButton.addEventListener("click", (event) => {
         onEqual(event);
     }});
 
-   /* buttons.forEach((button) => 
-    button.addEventListener("click", (event) => {
-    setTempNum();
-      if (event.target.id == "C" && (!display.textContent == "")) {
-    onC();
-    } if (event.target.id == "back"){
-    onBack();
-    } if (event.target.classList.contains("calc")) {
-    onNumber(event);
-    } if (event.target.id == "+-") {
-        onPlusMinus();
-    } if ((event.target.classList.contains("operator"))){
-        onOperator(event);
-    } if (event.target.id == "%") { 
-        onPercent(event);
-    }if (event.target.id == "equal" && phaseCounter == 2) {
-        onEqual();
-    }
-}));*/
 
 //Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[`${calcCounter}`]) 
 //and fill its keys with corresponding input
@@ -186,15 +151,18 @@ function onOperator(event){
         phaseCounter = 2;
         plusMinus = false;
     }
-    else if (phaseCounter == 2) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
-        if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
-        if (calcStorage[`${calcCounter}`].num2 == "-") {return;}
-        if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
+     else if ((phaseCounter == 2) && (calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 != "") && (calcStorage[`${calcCounter}`].num2 != "-") 
+        || (phaseCounter == 2) && (calcStorage[`${calcCounter}`].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+        //if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
+        //if (calcStorage[`${calcCounter}`].num2 == "-") {return;}
+      //  if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == "0")) return divZero();
+
+        console.log(calcStorage[`${calcCounter}`]);
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
         calcStorage[`${calcCounter}`].num1 = tempResult;
-        calcStorage[`${calcCounter}`].operator = event.target.id;
+        calcStorage[`${calcCounter}`].operator = event.target.textContent;
         phaseCounter = 2;
     }
 }
@@ -208,7 +176,7 @@ function onPercent(event){
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
          displayContent(calcStorage[`${calcCounter}`].result);
-         calcStorage[`${calcCounter}`].num1 += event.target.id;
+         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          generateCalcs();
     } if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
