@@ -164,9 +164,6 @@ function onOperator(event){
 
 function onPercent(event){
     //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
-    /*if (tempNum.num == ".") {return;}
-    if (tempNum.num == "") {return;}
-    if (tempNum.num == "-") {return;}*/
     if ((tempNum.num != ".") && (tempNum.num != "") && (tempNum.num != "-")) {
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
@@ -182,14 +179,12 @@ function onPercent(event){
     }}}
 
 function onEqual(){
-    if (tempNum.num == "") {return;}
-    if (tempNum.num == ".") {return;}
-    if (tempNum.num == "-") {return;}
-    if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) {return divZero();}
+    if ((tempNum.num != ".") && (tempNum.num != "") && (tempNum.num != "-")){
+    if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) return divZero();
     calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
     displayContent(calcStorage[`${calcCounter}`].result);
     generateCalcs();
-}
+}}
 
 function divZero(){
         calcStorage[`${calcCounter}`].num1 = "";
