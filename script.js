@@ -153,6 +153,7 @@ function onOperator(event){
     }
      else if ((phaseCounter == 2) && (calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 != "") && (calcStorage[`${calcCounter}`].num2 != "-") 
         || (phaseCounter == 2) && (calcStorage[`${calcCounter}`].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+            if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) return divZero();
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
