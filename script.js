@@ -143,6 +143,7 @@ function onPlusMinus() {
 }
 
 function onOperator(event){
+    console.log(calcStorage[calcCounter].num2);
     if (phaseCounter == 1) {
         calcStorage[calcCounter].operator = event.target.textContent;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
@@ -151,8 +152,7 @@ function onOperator(event){
         phaseCounter = 2;
         plusMinus = false;
     }
-     else if ((phaseCounter == 2) && (calcStorage[calcCounter].operator != "") && (calcStorage[calcCounter].num2 != "") && (calcStorage[calcCounter].num2 != "-") 
-        || (phaseCounter == 2) && (calcStorage[calcCounter].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+     else if ((phaseCounter == 2) && (calcStorage[calcCounter].operator != "") && (calcStorage[calcCounter].num2 != "") && (calcStorage[calcCounter].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
             if ((calcStorage[calcCounter].operator == "/" && calcStorage[calcCounter].num2 == 0)) return divZero();
         calcStorage[calcCounter].result = operate(calcStorage[calcCounter].num1, calcStorage[calcCounter].operator, calcStorage[calcCounter].num2);
         displayContent(calcStorage[calcCounter].result);
