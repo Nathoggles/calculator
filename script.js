@@ -147,17 +147,12 @@ function onOperator(event){
         calcStorage[`${calcCounter}`].operator = event.target.textContent;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
              calcStorage[`${calcCounter}`].num1 = tempResult;}
-        if (calcStorage[`${calcCounter}`].num1 == "" || calcStorage[`${calcCounter}`].num1 == "-") {calcStorage[`${calcCounter}`].num1 = "0";}
+        else if (calcStorage[`${calcCounter}`].num1 == "" || calcStorage[`${calcCounter}`].num1 == "-") {calcStorage[`${calcCounter}`].num1 = "0";}
         phaseCounter = 2;
         plusMinus = false;
     }
      else if ((phaseCounter == 2) && (calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 != "") && (calcStorage[`${calcCounter}`].num2 != "-") 
         || (phaseCounter == 2) && (calcStorage[`${calcCounter}`].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
-        //if ((calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 == "")) {return;}//checks if an operator has already been asigned to the calculation;
-        //if (calcStorage[`${calcCounter}`].num2 == "-") {return;}
-      //  if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == "0")) return divZero();
-
-        console.log(calcStorage[`${calcCounter}`]);
         calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
@@ -169,22 +164,22 @@ function onOperator(event){
 
 function onPercent(event){
     //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
-    if (tempNum.num == ".") {return;}
+    /*if (tempNum.num == ".") {return;}
     if (tempNum.num == "") {return;}
-    if (tempNum.num == "-") {return;}
+    if (tempNum.num == "-") {return;}*/
+    if ((tempNum.num != ".") && (tempNum.num != "") && (tempNum.num != "-")) {
     let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
     if (phaseCounter == 1){
          calcStorage[`${calcCounter}`].result = divide100.toString();
          displayContent(calcStorage[`${calcCounter}`].result);
          calcStorage[`${calcCounter}`].num1 += event.target.textContent;
          generateCalcs();
-    } if (phaseCounter == 2) {
+    } else if (phaseCounter == 2) {
         calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
         calcStorage[`${calcCounter}`].num2 += event.target.textContent;
         displayContent(calcStorage[`${calcCounter}`].result);
         generateCalcs();
-    }
-}
+    }}}
 
 function onEqual(){
     if (tempNum.num == "") {return;}
