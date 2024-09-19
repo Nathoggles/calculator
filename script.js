@@ -29,24 +29,24 @@ let tempNum = {};
 // Dynamic generator of calculation objects
 function generateCalcs() {
     if (phaseCounter != 0){
-    calcToDiv(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2, calcStorage[`${calcCounter}`].result);}
+    calcToDiv(calcStorage[calcCounter].num1, calcStorage[calcCounter].operator, calcStorage[calcCounter].num2, calcStorage[calcCounter].result);}
     phaseCounter = 1;
     calcCounter++;
     plusMinus = false;
-        calcStorage[`${calcCounter}`] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
-            calcStorage[`${calcCounter}`];
+        calcStorage[calcCounter] = {id: calcCounter, num1: '', num2: '', operator: '', result: ''};
+            calcStorage[calcCounter];
 }
 
 
 //set a temporary num each time a button is pressed depending on the current state (before an operator is selected or after), 
 //allowing to declump the input functions and reduce if/else statements based on phaseCounter. 
 function setTempNum() {
-    tempNum.num = calcStorage[`${calcCounter}`][`num${phaseCounter}`];
+    tempNum.num = calcStorage[calcCounter][`num${phaseCounter}`];
 }
 
 //update the num in CalcStorage when tempNum.num is changed.
 function updateNum() {
-    calcStorage[`${calcCounter}`][`num${phaseCounter}`] = tempNum.num;
+    calcStorage[calcCounter][`num${phaseCounter}`] = tempNum.num;
 }
 
 
@@ -96,13 +96,13 @@ equalButton.addEventListener("click", (event) => {
     }});
 
 
-//Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[`${calcCounter}`]) 
+//Functions to run on specific buttons pressed: use global phaseCounter to check step of the calculation, generate a new calculation sub-object (calcStorage[calcCounter]) 
 //and fill its keys with corresponding input
 
 function onC(){
-    calcStorage[`${calcCounter}`].num1 = "";
-    calcStorage[`${calcCounter}`].num2 = "";
-    calcStorage[`${calcCounter}`].operator = "";
+    calcStorage[calcCounter].num1 = "";
+    calcStorage[calcCounter].num2 = "";
+    calcStorage[calcCounter].operator = "";
     display.style.fontSize = "18vh";
     displayContent("0");
     phaseCounter = 1;
@@ -111,9 +111,9 @@ function onC(){
 function onBack()
     { //on pressing the back button: delete the last character, if string is "" - set display to 0, if clicked on the result phase, behave as a C button
     if ((tempResult == display.textContent) || (tempResult == tempNum.num)) {
-        calcStorage[`${calcCounter}`].num1 = "";
-        calcStorage[`${calcCounter}`].num2 = "";
-        calcStorage[`${calcCounter}`].operator = "";
+        calcStorage[calcCounter].num1 = "";
+        calcStorage[calcCounter].num2 = "";
+        calcStorage[calcCounter].operator = "";
         display.style.fontSize = "18vh";
         displayContent("0"); 
     } if (display.textContent == tempNum.num) {
@@ -144,21 +144,21 @@ function onPlusMinus() {
 
 function onOperator(event){
     if (phaseCounter == 1) {
-        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        calcStorage[calcCounter].operator = event.target.textContent;
         if (tempResult == display.textContent) { //if used on result screen, asign result to num1 and operator as operator of the next calculation object
-             calcStorage[`${calcCounter}`].num1 = tempResult;}
-        else if (calcStorage[`${calcCounter}`].num1 == "" || calcStorage[`${calcCounter}`].num1 == "-") {calcStorage[`${calcCounter}`].num1 = "0";}
+             calcStorage[calcCounter].num1 = tempResult;}
+        else if (calcStorage[calcCounter].num1 == "" || calcStorage[calcCounter].num1 == "-") {calcStorage[calcCounter].num1 = "0";}
         phaseCounter = 2;
         plusMinus = false;
     }
-     else if ((phaseCounter == 2) && (calcStorage[`${calcCounter}`].operator != "") && (calcStorage[`${calcCounter}`].num2 != "") && (calcStorage[`${calcCounter}`].num2 != "-") 
-        || (phaseCounter == 2) && (calcStorage[`${calcCounter}`].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
-            if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) return divZero();
-        calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-        displayContent(calcStorage[`${calcCounter}`].result);
+     else if ((phaseCounter == 2) && (calcStorage[calcCounter].operator != "") && (calcStorage[calcCounter].num2 != "") && (calcStorage[calcCounter].num2 != "-") 
+        || (phaseCounter == 2) && (calcStorage[calcCounter].num2 != "-")) { //if operator button is used a second time, behave as a = button and store the result for a new calculation
+            if ((calcStorage[calcCounter].operator == "/" && calcStorage[calcCounter].num2 == 0)) return divZero();
+        calcStorage[calcCounter].result = operate(calcStorage[calcCounter].num1, calcStorage[calcCounter].operator, calcStorage[calcCounter].num2);
+        displayContent(calcStorage[calcCounter].result);
         generateCalcs();
-        calcStorage[`${calcCounter}`].num1 = tempResult;
-        calcStorage[`${calcCounter}`].operator = event.target.textContent;
+        calcStorage[calcCounter].num1 = tempResult;
+        calcStorage[calcCounter].operator = event.target.textContent;
         phaseCounter = 2;
     }
 }
@@ -166,31 +166,31 @@ function onOperator(event){
 function onPercent(event){
     //on pressing the % button: if % is added to the first number, divide it by 100, if it is added to the second number, treat is as part of the number and immediately execute calculation.
     if ((tempNum.num != ".") && (tempNum.num != "") && (tempNum.num != "-")) {
-    let divide100 = parseFloat(calcStorage[`${calcCounter}`].num1) / 100;
+    let divide100 = parseFloat(calcStorage[calcCounter].num1) / 100;
     if (phaseCounter == 1){
-         calcStorage[`${calcCounter}`].result = divide100.toString();
-         displayContent(calcStorage[`${calcCounter}`].result);
-         calcStorage[`${calcCounter}`].num1 += event.target.textContent;
+         calcStorage[calcCounter].result = divide100.toString();
+         displayContent(calcStorage[calcCounter].result);
+         calcStorage[calcCounter].num1 += event.target.textContent;
          generateCalcs();
     } else if (phaseCounter == 2) {
-        calcStorage[`${calcCounter}`].result = operate(divide100, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-        calcStorage[`${calcCounter}`].num2 += event.target.textContent;
-        displayContent(calcStorage[`${calcCounter}`].result);
+        calcStorage[calcCounter].result = operate(divide100, calcStorage[calcCounter].operator, calcStorage[calcCounter].num2);
+        calcStorage[calcCounter].num2 += event.target.textContent;
+        displayContent(calcStorage[calcCounter].result);
         generateCalcs();
     }}}
 
 function onEqual(){
     if ((tempNum.num != ".") && (tempNum.num != "") && (tempNum.num != "-")){
-    if ((calcStorage[`${calcCounter}`].operator == "/" && calcStorage[`${calcCounter}`].num2 == 0)) return divZero();
-    calcStorage[`${calcCounter}`].result = operate(calcStorage[`${calcCounter}`].num1, calcStorage[`${calcCounter}`].operator, calcStorage[`${calcCounter}`].num2);
-    displayContent(calcStorage[`${calcCounter}`].result);
+    if ((calcStorage[calcCounter].operator == "/" && calcStorage[calcCounter].num2 == 0)) return divZero();
+    calcStorage[calcCounter].result = operate(calcStorage[calcCounter].num1, calcStorage[calcCounter].operator, calcStorage[calcCounter].num2);
+    displayContent(calcStorage[calcCounter].result);
     generateCalcs();
 }}
 
 function divZero(){
-        calcStorage[`${calcCounter}`].num1 = "";
-        calcStorage[`${calcCounter}`].num2 = "";
-        calcStorage[`${calcCounter}`].operator = "";
+        calcStorage[calcCounter].num1 = "";
+        calcStorage[calcCounter].num2 = "";
+        calcStorage[calcCounter].operator = "";
         phaseCounter = 1;
         displayContent("/0? RLY?"); 
         
@@ -236,7 +236,7 @@ function sliceAfterDot(result) {
 
 function displayContent(content) {
     display.textContent = content;
-    tempResult = calcStorage[`${calcCounter}`].result;
+    tempResult = calcStorage[calcCounter].result;
     if (content.length > 3 &&  width < 600) {
         if (content.length > 15) {
             display.style.fontSize = "2vh";
