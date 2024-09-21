@@ -344,6 +344,27 @@ button:active{
    
 }
 
+.rowLargescreen {
+    width: 11.1111111111%;
+    height: 10%;
+}
+
+.rowSmallscreen {
+    width: 20%;
+    height: 10%;
+}   
+
+.sideLargescreen {
+    width: 33.3333333333%;
+    height: 12.5%;
+}
+
+.sideSmallscreen {
+    width: 100%;
+    height: 12.5%;    
+
+}
+
 .newdivs {
     animation: fadeIn 4s;
     animation-delay: 0s;
