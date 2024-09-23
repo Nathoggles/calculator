@@ -2,6 +2,7 @@
 const buttons = document.querySelectorAll("button");
 const allContainer = document.querySelector("#allContainer");
 const display = document.querySelector("#M");
+const displayText = document.querySelector("#displayText");
 const width = window.innerWidth;
 
 
@@ -207,22 +208,22 @@ function operate(num1, operator, num2) {
 }
 
 function multiply(num1, num2) {
-    let result = parseFloat(num1) * parseFloat(num2);
+    const result = parseFloat(num1) * parseFloat(num2);
     return sliceAfterDot(result);
 }
 
 function divide(num1, num2) {
-    let result = parseFloat(num1) / parseFloat(num2);
+    const result = parseFloat(num1) / parseFloat(num2);
     return sliceAfterDot(result);
 }
 
 function summ(num1, num2) {
-    let result = parseFloat(num1) + parseFloat(num2);
+    const result = parseFloat(num1) + parseFloat(num2);
     return sliceAfterDot(result);
 }
 
 function substract(num1, num2) {
-    let result = parseFloat(num1) - parseFloat(num2);
+    const result = parseFloat(num1) - parseFloat(num2);
     return sliceAfterDot(result);
 }
 
@@ -232,7 +233,34 @@ function sliceAfterDot(result) {
     return result;
 }
 
+
 //displaying results function to shrink displayed depending on screen size to fit "display". 
+
+//I tried an alternative function that would calculate font-size dynamically if text would overflow the display div. 
+//It worked great for the receiving inputs phase, but required as many manual adjustments as the first one when calculating font size depending on the lenghht of the result screen.
+//So I returned to the first variant which allowed better adjustibility depending on screen size.
+/*let currentWidth = display.clientWidth;
+
+function displayContent(content) {
+    display.textContent = content;
+    tempResult = calcStorage[calcCounter].result;
+    const fontSize = parseInt(window.getComputedStyle(display).fontSize);
+    console.log(display.clientWidth);
+    console.log({currentWidth});
+    if (display.textContent.length == 1) {
+        display.style.fontSize = "18vh";
+    }
+    else if (currentWidth < display.clientWidth) {
+        if ((currentWidth * 1.4) < display.clientWidth) {
+            display.style.fontSize = (fontSize * 0.2) + "px";
+        }else if ((currentWidth * 1.05) < display.clientWidth) {
+            display.style.fontSize = (fontSize * 0.5) + "px";
+        }else {
+        display.style.fontSize = (fontSize * 0.7) + "px";
+    }
+    currentWidth = display.clientWidth;
+}}*/
+
 
 function displayContent(content) {
     display.textContent = content;
@@ -286,11 +314,16 @@ function displayContent(content) {
     }}
 }
 
+
+
+
+
+
 //updating the calculator's "display" to update input font size on new input and limit input lenghth
 function updateDisplayByWidth(event) {
-    if (tempNum.num.length <= 7) {
+    if ((width > 1000 && tempNum.num.length <= 10) || (width < 1000 && tempNum.num.length <= 4)) {
     tempNum.num += event.target.textContent;
-    display.style.fontSize = "18vh";
+    //display.style.fontSize = "18vh";
     displayContent(tempNum.num);
     updateNum();
 }}
@@ -299,7 +332,7 @@ let smallScreenDivs = 2;
 
 //for every succesfull calculation create a div displaying that calculation. Implement a cap on divs on small mobile screens. 
 function calcToDiv(num1, operator, num2, result){
-    if ((width < 800 && smallScreenDivs == 5)) {
+    if ((width < 1000 && smallScreenDivs == 4)) {
         smallScreenDivs = 0;
         divs.forEach((div) => {
             div.textContent = "";
@@ -308,6 +341,7 @@ function calcToDiv(num1, operator, num2, result){
     let divId = randomNumber(1, divs.length);
     let div = document.querySelector(`#div${divId}`);
     div.textContent = num1 + " " + operator + " " + num2 + " = " + result; 
+        if (div.textContent.length > 20 && width < 1000) div.style.fontSize = "0.7vh"; 
     div.setAttribute("class", "newdivs");
     smallScreenDivs++;
 }
@@ -387,11 +421,11 @@ function createDummyCalcs(){
     }}}
 
 function assembleDiv(){
-    let divId = randomNumber(1, divs.length);
-        let randomObj = createRandomObj();
+    const divId = randomNumber(1, divs.length);
+        const randomObj = createRandomObj();
         randomObj.result = operate(randomObj.num1, randomObj.operator, randomObj.num2);
         randomObj.result = randomObj.result.indexOf(".") > 0 ? randomObj.result.slice(0, randomObj.result.indexOf(".") + 3) : randomObj.result; 
-        let div = document.querySelector(`#div${divId}`);
+        const div = document.querySelector(`#div${divId}`);
         div.textContent = randomObj.num1 + " " + randomObj.operator + " " + randomObj.num2 + " = " + randomObj.result;}
 
 function createRandomObj(){
@@ -403,7 +437,7 @@ function createRandomObj(){
 }
 
 function getRandomOperator(){
-    let randomN = randomNumber(1,5);
+    const randomN = randomNumber(1,5);
     if (randomN == 1) {return "/";}
     if (randomN == 2) {return "*";}
     if (randomN == 3) {return "-";}
