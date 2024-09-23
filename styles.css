@@ -52,10 +52,12 @@ div{
         font-weight: 600;
         font-size: 2.5vh;
         min-width: 10%;
+        word-wrap: break-word;
     }
     
     .newdivs {
-        min-width: 10%;
+        max-width: 10%;
+        word-wrap: break-word;
     }
 
     #back {font-size: 3.5vh;
@@ -66,7 +68,6 @@ div{
 @media (max-device-width: 999px) or (orientation: portrait) {
     body {
         height: 100vh;
-        overflow: hidden;
     }
     
 
@@ -92,14 +93,16 @@ div{
         font-weight: 600;
         font-size: 1.5vh;
         width: 30px;
+        max-height: 30px;
         word-wrap: break-word;
-      
 
     }
     .newdivs {
         font-size: 1.5vh;
         word-wrap: break-word;
         width: 30px;
+        max-height: 10px;
+        max-height: 5rem;
     }
 }
 /*
@@ -255,6 +258,7 @@ div{
     font-weight: 400;    
     text-shadow: -1px -1px rgba(0,0,0,0.2);           
 }
+
 
 button {
     cursor: pointer;
